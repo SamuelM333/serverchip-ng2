@@ -20,6 +20,7 @@
       "styles": [
         "assets/css/vendor.min.css",
         "assets/css/app-seagreen.min.css",
+        "../node_modules/font-awesome/css/font-awesome.min.css",
         "styles.sass"
       ],
       "scripts": [
