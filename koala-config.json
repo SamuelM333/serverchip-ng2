@@ -1,0 +1,9 @@
+{
+	"mappings": [],
+
+	"ignores": ["node_modules", "bower_components"],
+
+	"options": {},
+
+	"includePaths": []
+}
