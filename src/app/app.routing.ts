@@ -1,17 +1,17 @@
 import { ModuleWithProviders} from '@angular/core';
 import { Routes, RouterModule } from "@angular/router";
 
-import { TasksComponent } from "./tasks/tasks.component";
-import { ReportsComponent } from "./reports/reports.component";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DASHBOARD_ROUTES } from './dashboard/dashboard.routes'
+
 import { LoginComponent } from "./auth/login/login.component";
 import { SignupComponent } from "./auth/signup/signup.component";
-import { MicrochipsComponent } from "./microchips/microchips.component";
+
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/tasks', pathMatch: 'full' },
-    { path: 'tasks', component: TasksComponent },
-    { path: 'reports', component: ReportsComponent },
-    { path: 'microchips', component: MicrochipsComponent },
+    { path: '', redirectTo: '/dashboard/tasks', pathMatch: 'full' },
+    { path: 'dashboard', redirectTo: '/dashboard/tasks', pathMatch: 'full' },
+    { path: 'dashboard', component: DashboardComponent, children: DASHBOARD_ROUTES },
     { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: SignupComponent }
 ];

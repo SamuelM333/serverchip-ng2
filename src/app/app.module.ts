@@ -6,14 +6,17 @@ import { HttpModule } from '@angular/http';
 import { APP_ROUTING } from "./app.routing";
 
 import { AppComponent } from './app.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { HeaderComponent } from './shared/header/header.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { TasksComponent } from './tasks/tasks.component';
-import { ReportsComponent } from './reports/reports.component';
+
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import { MicrochipsComponent } from './microchips/microchips.component';
+
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SidebarComponent } from './dashboard/shared/sidebar/sidebar.component';
+import { HeaderComponent } from './dashboard/shared/header/header.component';
+import { FooterComponent } from './dashboard/shared/footer/footer.component';
+import { TasksComponent } from './dashboard/tasks/tasks.component';
+import { ReportsComponent } from './dashboard/reports/reports.component';
+import { MicrochipsComponent } from './dashboard/microchips/microchips.component';
 
 @NgModule({
     imports: [
@@ -31,7 +34,8 @@ import { MicrochipsComponent } from './microchips/microchips.component';
         ReportsComponent,
         LoginComponent,
         SignupComponent,
-        MicrochipsComponent
+        MicrochipsComponent,
+        DashboardComponent,
     ],
     providers: [],
     bootstrap: [AppComponent]
