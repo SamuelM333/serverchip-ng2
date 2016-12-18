@@ -11,6 +11,9 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { ReportsComponent } from './reports/reports.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { MicrochipsComponent } from './microchips/microchips.component';
 
 @NgModule({
     imports: [
@@ -25,7 +28,10 @@ import { ReportsComponent } from './reports/reports.component';
         HeaderComponent,
         FooterComponent,
         TasksComponent,
-        ReportsComponent
+        ReportsComponent,
+        LoginComponent,
+        SignupComponent,
+        MicrochipsComponent
     ],
     providers: [],
     bootstrap: [AppComponent]
