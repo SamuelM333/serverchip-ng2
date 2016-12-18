@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { APP_ROUTING } from "./app.routing";
+import { APP_ROUTING } from  './app.routing';
 
 import { AppComponent } from './app.component';
 

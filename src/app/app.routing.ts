@@ -1,11 +1,11 @@
 import { ModuleWithProviders} from '@angular/core';
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule } from  '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DASHBOARD_ROUTES } from './dashboard/dashboard.routes'
+import { DASHBOARD_ROUTES } from './dashboard/dashboard.routes';
 
-import { LoginComponent } from "./auth/login/login.component";
-import { SignupComponent } from "./auth/signup/signup.component";
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 
 const APP_ROUTES: Routes = [
