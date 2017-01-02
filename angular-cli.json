@@ -24,9 +24,9 @@
         "styles.sass"
       ],
       "scripts": [
-        "assets/js/custom.js",
         "assets/js/vendor.min.js",
-        "assets/js/app.min.js"
+        "assets/js/app.min.js",
+        "assets/js/custom.js"
       ],
       "environments": {
         "source": "environments/environment.ts",
