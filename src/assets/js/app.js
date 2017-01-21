@@ -25,14 +25,14 @@ config.validations = {
 	highlight: function(element, errorClass, validClass) {
 		$(element).parents("div.form-group")
 		.addClass(errorClass)
-		.removeClass(validClass); 
-	}, 
+		.removeClass(validClass);
+	},
 
 	// add error class
 	unhighlight: function(element, errorClass, validClass) {
 		$(element).parents(".has-error")
 		.removeClass(errorClass)
-		.addClass(validClass); 
+		.addClass(validClass);
 	},
 
 	// submit handler
@@ -49,24 +49,6 @@ config.chart = {};
 
 config.chart.colorPrimary = tinycolor($ref.find(".chart .color-primary").css("color"));
 config.chart.colorSecondary = tinycolor($ref.find(".chart .color-secondary").css("color"));
-$(function() {
-	animate({
-		name: 'flipInY',
-		selector: '.error-card > .error-title-block'
-	});
-
-
-	setTimeout(function(){
-		var $el = $('.error-card > .error-container');
-
-		animate({
-			name: 'fadeInUp',
-			selector: $el 
-		});
-
-		$el.addClass('visible');
-	}, 1000);
-})
 //LoginForm validation
 $(function() {
 	if (!$('#login-form').length) {
@@ -102,7 +84,38 @@ $(function() {
 
     $('#login-form').validate(loginValidationSettings);
 })
-//LoginForm validation
+//ResetForm validation
+$(function() {
+	if (!$('#reset-form').length) {
+        return false;
+    }
+
+    var resetValidationSettings = {
+	    rules: {
+	        email1: {
+	            required: true,
+	            email: true
+	        }
+	    },
+	    messages: {
+	        email1: {
+	            required: "Please enter email address",
+	            email: "Please enter a valid email address"
+	        }
+	    },
+	    invalidHandler: function() {
+			animate({
+				name: 'shake',
+				selector: '.auth-container > .card'
+			});
+		}
+	}
+
+	$.extend(resetValidationSettings, config.validations);
+
+    $('#reset-form').validate(resetValidationSettings);
+})
+//SignupForm validation
 $(function() {
 	if (!$('#signup-form').length) {
         return false;
@@ -139,16 +152,16 @@ $(function() {
 		},
 		errorPlacement: function(error, element) {
 			if (
-				element.attr("name") == "firstname" || 
-				element.attr("name") == "lastname" 
+				element.attr("name") == "firstname" ||
+				element.attr("name") == "lastname"
 			) {
 				error.insertAfter($("#lastname").closest('.row'));
 				element.parents("div.form-group")
 				.addClass('has-error');
-			} 
+			}
 			else if (
-				element.attr("name") == "password" || 
-				element.attr("name") == "retype_password" 
+				element.attr("name") == "password" ||
+				element.attr("name") == "retype_password"
 			) {
 				error.insertAfter($("#retype_password").closest('.row'));
 				element.parents("div.form-group")
@@ -190,36 +203,23 @@ $(function() {
 
     $('#signup-form').validate(signupValidationSettings);
 });
-//LoginForm validation
 $(function() {
-	if (!$('#reset-form').length) {
-        return false;
-    }
+	animate({
+		name: 'flipInY',
+		selector: '.error-card > .error-title-block'
+	});
 
-    var resetValidationSettings = {
-	    rules: {
-	        email1: {
-	            required: true,
-	            email: true
-	        }
-	    },
-	    messages: {
-	        email1: {
-	            required: "Please enter email address",
-	            email: "Please enter a valid email address"
-	        }
-	    },
-	    invalidHandler: function() {
-			animate({
-				name: 'shake',
-				selector: '.auth-container > .card'
-			});
-		}
-	}
 
-	$.extend(resetValidationSettings, config.validations);
+	setTimeout(function(){
+		var $el = $('.error-card > .error-container');
 
-    $('#reset-form').validate(resetValidationSettings);
+		animate({
+			name: 'fadeInUp',
+			selector: $el
+		});
+
+		$el.addClass('visible');
+	}, 1000);
 })
 /***********************************************
 *        Animation Settings
@@ -229,39 +229,19 @@ function animate(options) {
 	var animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
 	$(options.selector)
 	.addClass(animationName)
-	.one(animationEnd, 
+	.one(animationEnd,
 		function(){
 			$(this).removeClass(animationName);
 		}
 	);
 }
 
-$(function() {
-	var $itemActions = $(".item-actions-dropdown");
-
-	$(document).on('click',function(e) {
-		if (!$(e.target).closest('.item-actions-dropdown').length) {
-			$itemActions.removeClass('active');
-		}
-	});
-	
-	$('.item-actions-toggle-btn').on('click',function(e){
-		e.preventDefault();
-
-		var $thisActionList = $(this).closest('.item-actions-dropdown');
-
-		$itemActions.not($thisActionList).removeClass('active');
-
-		$thisActionList.toggleClass('active');	
-	});
-});
-
 /***********************************************
 *        NProgress Settings
 ***********************************************/
-var npSettings = { 
-	easing: 'ease', 
-	speed: 500 
+var npSettings = {
+	easing: 'ease',
+	speed: 500
 }
 
 NProgress.configure(npSettings);
@@ -302,7 +282,7 @@ function setSameHeights($container) {
 			var excludedStr = $(this).data('exclude') || '';
 			var excluded = excludedStr.split(',');
 
-			// Set height of element if it's not excluded on 
+			// Set height of element if it's not excluded on
 			if (excluded.indexOf(viewport) === -1) {
 				$(this).innerHeight(maxHeight);
 			}
@@ -310,293 +290,6 @@ function setSameHeights($container) {
 	});
 }
 
-$(function() {
-
-    if (!$('#dashboard-visits-chart').length) {
-        return false;
-    }
-
-    // drawing visits chart
-    drawVisitsChart();
-
-    var el = null;
-    var item = 'visits';
-
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-       
-       el = e.target;
-       item = $(el).attr('href').replace('#', '');
-       switchHistoryCharts(item);
-       
-    });
-
-    $(document).on("themechange", function(){
-        switchHistoryCharts(item);
-    });
-
-    function switchHistoryCharts(item){
-        var chartSelector = "#dashboard-" + item + "-chart";
-
-        if ($(chartSelector).has('svg').length) {
-            $(chartSelector).empty();
-        }
-
-        switch(item){
-            case 'visits':
-                drawVisitsChart();
-                break;
-             case 'downloads':
-                drawDownloadsChart();
-                break;
-        }
-    }
-
-    function drawVisitsChart(){
-        var dataVisits = [
-            { x: '2015-09-01', y: 70},
-            { x: '2015-09-02', y: 75 },
-            { x: '2015-09-03', y: 50},
-            { x: '2015-09-04', y: 75 },
-            { x: '2015-09-05', y: 50 },
-            { x: '2015-09-06', y: 75 },
-            { x: '2015-09-07', y: 86 } 
-        ];
-
-
-        Morris.Line({
-            element: 'dashboard-visits-chart',
-            data: dataVisits,
-            xkey: 'x',
-            ykeys: ['y'],
-            ymin: 'auto 40',
-            labels: ['Visits'],
-            xLabels: "day",
-            hideHover: 'auto',
-            yLabelFormat: function (y) {
-                // Only integers
-                if (y === parseInt(y, 10)) {
-                    return y;
-                }
-                else {
-                    return '';
-                }
-            },
-            resize: true,
-            lineColors: [
-                config.chart.colorSecondary.toString(),
-            ],
-            pointFillColors: [
-                 config.chart.colorPrimary.toString(),
-            ]
-        });
-    }
-
-    function drawDownloadsChart(){
-
-        var dataDownloads = [
-            { 
-                year: '2006',
-                downloads: 1300
-            },
-            { 
-                year: '2007', 
-                downloads: 1526
-            },
-            { 
-                year: '2008', 
-                downloads: 2000
-            },
-            { 
-                year: '2009', 
-                downloads: 1800
-            },
-            { 
-                year: '2010', 
-                downloads: 1650
-            },    
-            { 
-                year: '2011', 
-                downloads: 620
-            },
-            { 
-                year: '2012', 
-                downloads: 1000
-            },
-            { 
-                year: '2013', 
-                downloads: 1896
-            },
-            { 
-                year: '2014', 
-                downloads: 850
-            },
-            { 
-                year: '2015', 
-                downloads: 1500
-            }  
-        ];
-
-
-        Morris.Bar({
-            element: 'dashboard-downloads-chart',
-            data: dataDownloads,
-            xkey: 'year',
-            ykeys: ['downloads'],
-            labels: ['Downloads'],
-            hideHover: 'auto',
-            resize: true,
-            barColors: [
-                config.chart.colorPrimary.toString(),
-                tinycolor(config.chart.colorPrimary.toString()).darken(10).toString()
-            ],
-        });
-    }
-});
-
-
-
-
-$(function() {
-	
-
-	function drawDashboardItemsListSparklines(){
-		$(".dashboard-page .items .sparkline").each(function() {
-			var type = $(this).data('type');
-
-			// There is predefined data
-			if ($(this).data('data')) {
-				var data = $(this).data('data').split(',').map(function(item) {
-					if (item.indexOf(":") > 0) {
-						return item.split(":");
-					}
-					else {
-						return item;
-					}
-				});
-			}
-			// Generate random data
-			else {
-				var data = [];
-				for (var i = 0; i < 17; i++) {
-					data.push(Math.round(100 * Math.random()));
-				}
-			}
-
-
-			$(this).sparkline(data, {
-				barColor: config.chart.colorPrimary.toString(),
-				height: $(this).height(),
-				type: type
-			});
-		});
-	}
-
-	drawDashboardItemsListSparklines();
-
-	$(document).on("themechange", function(){
-        drawDashboardItemsListSparklines();
-    });
-});
-$(function() {
-
-    var $dashboardSalesMap = $('#dashboard-sales-map');
-
-    if (!$dashboardSalesMap.length) {
-        return false;
-    }
-
-    function drawSalesMap() {
-
-        $dashboardSalesMap.empty();
-
-        var color = config.chart.colorPrimary.toHexString();
-        var darkColor = tinycolor(config.chart.colorPrimary.toString()).darken(40).toHexString();
-        var selectedColor = tinycolor(config.chart.colorPrimary.toString()).darken(10).toHexString();
-
-        var sales_data = {
-            us: 2000,
-            ru: 2000, 
-            gb: 10000,
-            fr: 10000,
-            de: 10000,
-            cn: 10000,
-            in: 10000,
-            sa: 10000,
-            ca: 10000,
-            br: 5000,
-            au: 5000
-        };
-
-        $dashboardSalesMap.vectorMap({
-            map: 'world_en',
-            backgroundColor: 'transparent',
-            color: '#E5E3E5',
-            hoverOpacity: 0.7,
-            selectedColor: selectedColor,
-            enableZoom: true,
-            showTooltip: true,
-            values: sales_data,
-            scaleColors: [ color, darkColor],
-            normalizeFunction: 'linear'
-        });
-    }
-
-    drawSalesMap();
-
-    $(document).on("themechange", function(){
-       drawSalesMap();
-    });
-});
-$(function() {
-
-    var $dashboardSalesBreakdownChart = $('#dashboard-sales-breakdown-chart');
-
-    if (!$dashboardSalesBreakdownChart.length) {
-        return false;
-    } 
-
-    function drawSalesChart(){
-
-    $dashboardSalesBreakdownChart.empty();
-
-        Morris.Donut({
-            element: 'dashboard-sales-breakdown-chart',
-            data: [{ label: "Download Sales", value: 12 },
-                { label: "In-Store Sales", value: 30 },
-                { label: "Mail-Order Sales", value: 20 } ],
-            resize: true,
-            colors: [
-                tinycolor(config.chart.colorPrimary.toString()).lighten(10).toString(),
-                tinycolor(config.chart.colorPrimary.toString()).darken(8).toString(),
-                config.chart.colorPrimary.toString()
-            ],
-        });
-
-        var $sameheightContainer = $dashboardSalesBreakdownChart.closest(".sameheight-container");
-
-        setSameHeights($sameheightContainer);
-    }
-
-    drawSalesChart();
-
-    $(document).on("themechange", function(){
-       drawSalesChart();
-    });
-    
-})
-$(function() {
-
-	$('.actions-list > li').on('click', '.check', function(e){
-		e.preventDefault();
-
-		$(this).parents('.tasks-item')
-		.find('.checkbox')
-		.prop("checked",  true);
-
-		removeActionList();
-	});
-
-});
 //Flot Bar Chart
 $(function() {
 
@@ -928,7 +621,7 @@ $(function() {
 
 });
 $(function() {
-    
+
     if (!$('#morris-one-line-chart').length) {
         return false;
     }
@@ -936,7 +629,7 @@ $(function() {
     function drawMorrisCharts() {
 
         $('#morris-one-line-chart').empty();
-        
+
         Morris.Line({
             element: 'morris-one-line-chart',
                 data: [
@@ -1052,6 +745,293 @@ $(function() {
         drawMorrisCharts();
     });
 });
+$(function() {
+
+    if (!$('#dashboard-visits-chart').length) {
+        return false;
+    }
+
+    // drawing visits chart
+    drawVisitsChart();
+
+    var el = null;
+    var item = 'visits';
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+       el = e.target;
+       item = $(el).attr('href').replace('#', '');
+       switchHistoryCharts(item);
+
+    });
+
+    $(document).on("themechange", function(){
+        switchHistoryCharts(item);
+    });
+
+    function switchHistoryCharts(item){
+        var chartSelector = "#dashboard-" + item + "-chart";
+
+        if ($(chartSelector).has('svg').length) {
+            $(chartSelector).empty();
+        }
+
+        switch(item){
+            case 'visits':
+                drawVisitsChart();
+                break;
+             case 'downloads':
+                drawDownloadsChart();
+                break;
+        }
+    }
+
+    function drawVisitsChart(){
+        var dataVisits = [
+            { x: '2015-09-01', y: 70},
+            { x: '2015-09-02', y: 75 },
+            { x: '2015-09-03', y: 50},
+            { x: '2015-09-04', y: 75 },
+            { x: '2015-09-05', y: 50 },
+            { x: '2015-09-06', y: 75 },
+            { x: '2015-09-07', y: 86 }
+        ];
+
+
+        Morris.Line({
+            element: 'dashboard-visits-chart',
+            data: dataVisits,
+            xkey: 'x',
+            ykeys: ['y'],
+            ymin: 'auto 40',
+            labels: ['Visits'],
+            xLabels: "day",
+            hideHover: 'auto',
+            yLabelFormat: function (y) {
+                // Only integers
+                if (y === parseInt(y, 10)) {
+                    return y;
+                }
+                else {
+                    return '';
+                }
+            },
+            resize: true,
+            lineColors: [
+                config.chart.colorSecondary.toString(),
+            ],
+            pointFillColors: [
+                 config.chart.colorPrimary.toString(),
+            ]
+        });
+    }
+
+    function drawDownloadsChart(){
+
+        var dataDownloads = [
+            {
+                year: '2006',
+                downloads: 1300
+            },
+            {
+                year: '2007',
+                downloads: 1526
+            },
+            {
+                year: '2008',
+                downloads: 2000
+            },
+            {
+                year: '2009',
+                downloads: 1800
+            },
+            {
+                year: '2010',
+                downloads: 1650
+            },
+            {
+                year: '2011',
+                downloads: 620
+            },
+            {
+                year: '2012',
+                downloads: 1000
+            },
+            {
+                year: '2013',
+                downloads: 1896
+            },
+            {
+                year: '2014',
+                downloads: 850
+            },
+            {
+                year: '2015',
+                downloads: 1500
+            }
+        ];
+
+
+        Morris.Bar({
+            element: 'dashboard-downloads-chart',
+            data: dataDownloads,
+            xkey: 'year',
+            ykeys: ['downloads'],
+            labels: ['Downloads'],
+            hideHover: 'auto',
+            resize: true,
+            barColors: [
+                config.chart.colorPrimary.toString(),
+                tinycolor(config.chart.colorPrimary.toString()).darken(10).toString()
+            ],
+        });
+    }
+});
+
+
+
+
+$(function() {
+
+
+	function drawDashboardItemsListSparklines(){
+		$(".dashboard-page .items .sparkline").each(function() {
+			var type = $(this).data('type');
+
+			// There is predefined data
+			if ($(this).data('data')) {
+				var data = $(this).data('data').split(',').map(function(item) {
+					if (item.indexOf(":") > 0) {
+						return item.split(":");
+					}
+					else {
+						return item;
+					}
+				});
+			}
+			// Generate random data
+			else {
+				var data = [];
+				for (var i = 0; i < 17; i++) {
+					data.push(Math.round(100 * Math.random()));
+				}
+			}
+
+
+			$(this).sparkline(data, {
+				barColor: config.chart.colorPrimary.toString(),
+				height: $(this).height(),
+				type: type
+			});
+		});
+	}
+
+	drawDashboardItemsListSparklines();
+
+	$(document).on("themechange", function(){
+        drawDashboardItemsListSparklines();
+    });
+});
+$(function() {
+
+    var $dashboardSalesBreakdownChart = $('#dashboard-sales-breakdown-chart');
+
+    if (!$dashboardSalesBreakdownChart.length) {
+        return false;
+    }
+
+    function drawSalesChart(){
+
+    $dashboardSalesBreakdownChart.empty();
+
+        Morris.Donut({
+            element: 'dashboard-sales-breakdown-chart',
+            data: [{ label: "Download Sales", value: 12 },
+                { label: "In-Store Sales", value: 30 },
+                { label: "Mail-Order Sales", value: 20 } ],
+            resize: true,
+            colors: [
+                tinycolor(config.chart.colorPrimary.toString()).lighten(10).toString(),
+                tinycolor(config.chart.colorPrimary.toString()).darken(8).toString(),
+                config.chart.colorPrimary.toString()
+            ],
+        });
+
+        var $sameheightContainer = $dashboardSalesBreakdownChart.closest(".sameheight-container");
+
+        setSameHeights($sameheightContainer);
+    }
+
+    drawSalesChart();
+
+    $(document).on("themechange", function(){
+       drawSalesChart();
+    });
+
+})
+$(function() {
+
+    var $dashboardSalesMap = $('#dashboard-sales-map');
+
+    if (!$dashboardSalesMap.length) {
+        return false;
+    }
+
+    function drawSalesMap() {
+
+        $dashboardSalesMap.empty();
+
+        var color = config.chart.colorPrimary.toHexString();
+        var darkColor = tinycolor(config.chart.colorPrimary.toString()).darken(40).toHexString();
+        var selectedColor = tinycolor(config.chart.colorPrimary.toString()).darken(10).toHexString();
+
+        var sales_data = {
+            us: 2000,
+            ru: 2000,
+            gb: 10000,
+            fr: 10000,
+            de: 10000,
+            cn: 10000,
+            in: 10000,
+            sa: 10000,
+            ca: 10000,
+            br: 5000,
+            au: 5000
+        };
+
+        $dashboardSalesMap.vectorMap({
+            map: 'world_en',
+            backgroundColor: 'transparent',
+            color: '#E5E3E5',
+            hoverOpacity: 0.7,
+            selectedColor: selectedColor,
+            enableZoom: true,
+            showTooltip: true,
+            values: sales_data,
+            scaleColors: [ color, darkColor],
+            normalizeFunction: 'linear'
+        });
+    }
+
+    drawSalesMap();
+
+    $(document).on("themechange", function(){
+       drawSalesMap();
+    });
+});
+$(function() {
+
+	$('.actions-list > li').on('click', '.check', function(e){
+		e.preventDefault();
+
+		$(this).parents('.tasks-item')
+		.find('.checkbox')
+		.prop("checked",  true);
+
+		removeActionList();
+	});
+
+});
 //LoginForm validation
 $(function() {
 	if (!$('.form-control').length) {
@@ -1069,18 +1049,18 @@ $(function() {
 $(function(){
 
 	// set sortable options
-	$('.images-container').sortable({
-		animation: 150,
-		handle: ".control-btn.move",
-		draggable: ".image-container",
-		onMove: function (evt) {
-			var $relatedElem = $(evt.related);
-
-	        if ($relatedElem.hasClass('add-image')) {
-	        	return false;
-	        }
-	    }
-	});
+	// $('.images-container').sortable({
+	// 	animation: 150,
+	// 	handle: ".control-btn.move",
+	// 	draggable: ".image-container",
+	// 	onMove: function (evt) {
+	// 		var $relatedElem = $(evt.related);
+    //
+	//         if ($relatedElem.hasClass('add-image')) {
+	//         	return false;
+	//         }
+	//     }
+	// });
 
 
 	$controlsButtons = $('.controls');
@@ -1108,7 +1088,7 @@ $(function() {
 
 
     $('#select-all-items').on('change', function() {
-        var $this = $(this).children(':checkbox').get(0);    
+        var $this = $(this).children(':checkbox').get(0);
 
         $(this).parents('li')
             .siblings()
@@ -1163,7 +1143,7 @@ $(function() {
 
 
 	});
-	
+
 });
 $(function () {
 
@@ -1174,14 +1154,14 @@ $(function () {
 
 	$('#sidebar-collapse-btn').on('click', function(event){
 		event.preventDefault();
-		
+
 		$("#app").toggleClass("sidebar-open");
 	});
 
 	$("#sidebar-overlay").on('click', function() {
 		$("#app").removeClass("sidebar-open");
 	});
-	
+
 });
 $(function() {
 	$('.nav-profile > li > a').on('click', function() {
@@ -1281,10 +1261,10 @@ $(function () {
 			setThemeControlsState();
 			saveThemeSettings();
 
-			$(document).trigger("themechange");	
-			
+			$(document).trigger("themechange");
+
 			next();
-		});	
+		});
 	}
 
 	/************************************************
@@ -1348,8 +1328,8 @@ $(function () {
 	*			Update theme color
 	*************************************************/
 	function setThemeColor(){
-		config.chart.colorPrimary = tinycolor($ref.find(".chart .color-primary").css("color"));	
-		config.chart.colorSecondary = tinycolor($ref.find(".chart .color-secondary").css("color"));	
+		config.chart.colorPrimary = tinycolor($ref.find(".chart .color-primary").css("color"));
+		config.chart.colorSecondary = tinycolor($ref.find(".chart .color-secondary").css("color"));
 	}
 
 	/************************************************
@@ -1385,5 +1365,5 @@ $(function() {
 // start load bar
 NProgress.start();
 
-// end loading bar 
+// end loading bar
 NProgress.done();
