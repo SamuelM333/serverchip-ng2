@@ -5,8 +5,9 @@ import { Microchip } from "../../../shared/microchip";
 declare const $: any;
 
 @Component({
-  selector: 'app-microchips',
-  templateUrl: './microchips-list.component.html',
+    selector: 'app-microchips',
+    templateUrl: './microchips-list.component.html',
+    styleUrls: ['./microchips-list.component.sass']
 })
 export class MicrochipsListComponent implements OnInit, AfterViewInit {
 
@@ -22,7 +23,7 @@ export class MicrochipsListComponent implements OnInit, AfterViewInit {
             data => {
                 this.microchips = data._items;
                 meta = data._meta;
-                for (let i = 0; i < this.microchips.length; i++){
+                for (let i = 0; i < this.microchips.length; i++) {
                     this.apiService.getTaskByMicrochipID(this.microchips[i]._id).subscribe(
                         data => { this.microchips[i].tasks = data._items }
                     );
