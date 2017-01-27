@@ -22,7 +22,7 @@ export class ApiService {
     }
 
     getMicrochipByID(_id: string) {
-        return this.http.get(apiUrl + 'microchip/' + _id).map(
+        return this.http.get(apiUrl + 'microchip/' + _id + '?embedded={"owner":1}').map(
             (response: Response) => response.json()
         );
     }

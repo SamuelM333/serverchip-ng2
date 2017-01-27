@@ -1,3 +1,25 @@
-<p>
-  microchip-view works!
-</p>
+<article class="content item-editor-page">
+  <div class="title-block">
+    <h3 class="title">
+      {{ microchip?.name }}
+      <span class="sparkline bar" data-type="bar"></span>
+    </h3>
+    <p class="title-description"> {{ microchip?.description }} </p>
+  </div>
+
+  <div class="card card-block">
+    <div class="text-center">
+      <img id="microchip-img" class="img-fluid mx-auto d-block" src="assets/img/placeholder.png" alt="microchip">
+    </div>
+    <p><b>Microchip IP: </b>{{ microchip?.ip }}</p>
+    <p><b>Owner name: </b>{{ microchip?.owner.name }} {{ microchip?.owner.last_name }}</p>
+    <div class="row">
+      <div class="btn-group pull-right">
+        <button type="button" class="btn btn-pill-left btn-primary">Primary</button>
+        <button type="button" class="btn btn-warning">Warning</button>
+        <button type="button" class="btn btn-pill-right btn-danger">Danger</button>
+      </div>
+    </div>
+  </div>
+
+</article>
