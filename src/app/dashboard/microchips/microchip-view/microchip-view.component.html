@@ -1,5 +1,7 @@
 <article class="content item-editor-page">
-  <div class="title-block">
+  <busy-loader [isActive]="loading" [big]="loading" [show]="loading" [color]="'#4bcf99'"></busy-loader>
+
+  <div class="title-block" *ngIf="!loading">
     <h3 class="title">
       {{ microchip?.name }}
       <span class="sparkline bar" data-type="bar"></span>
@@ -7,7 +9,7 @@
     <p class="title-description"> {{ microchip?.description }} </p>
   </div>
 
-  <div class="card card-block">
+  <div class="card card-block" *ngIf="!loading">
     <div class="text-center">
       <img id="microchip-img" class="img-fluid mx-auto d-block" src="assets/img/placeholder.png" alt="microchip">
     </div>

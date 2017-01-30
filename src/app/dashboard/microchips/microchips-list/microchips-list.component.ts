@@ -13,10 +13,12 @@ export class MicrochipsListComponent implements OnInit, AfterViewInit {
 
     microchips: Microchip[];
     pages: number[] = [];
+    loading: boolean;
 
     constructor(private apiService: ApiService) { }
 
     ngOnInit() {
+        this.loading = true;
         let error: boolean = false;
         let meta;
         this.apiService.getMicrochips().subscribe(
@@ -63,6 +65,8 @@ export class MicrochipsListComponent implements OnInit, AfterViewInit {
                         });
                     });
                 }, 500);
+
+                this.loading = false;
             }
         );
     }

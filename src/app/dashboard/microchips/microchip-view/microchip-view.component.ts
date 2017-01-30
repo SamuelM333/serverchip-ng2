@@ -12,19 +12,21 @@ export class MicrochipViewComponent implements OnInit {
 
     _id: string;
     microchip: Microchip;
+    loading: boolean;
 
     constructor(private apiService: ApiService, private activatedRoute: ActivatedRoute) {
         this._id = activatedRoute.snapshot.params['id'];
     }
 
     ngOnInit() {
+        this.loading = true;
         this.apiService.getMicrochipByID(this._id).subscribe(
             data => {
                 this.microchip = data;
                 // this.microchip.owner = data.owner.name;
             },
             err => console.log("Error:", err),
-            () => {}
+            () => { this.loading = false;}
         );
     }
 

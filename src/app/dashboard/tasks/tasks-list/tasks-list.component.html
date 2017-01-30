@@ -1,5 +1,6 @@
 <article class="content items-list-page">
-  <div class="title-search-block">
+  <busy-loader [isActive]="loading" [big]="loading" [show]="loading" [color]="'#4bcf99'"></busy-loader>
+  <div class="title-search-block" *ngIf="!loading">
     <div class="title-block">
       <div class="row">
         <div class="col-md-6">
@@ -31,9 +32,6 @@
 				</span></div>
       </form>
     </div>
-  </div>
-  <div class="text-center">
-    <busy-loader [isActive]="loading" [big]="loading" [show]="loading" [color]="'#4bcf99'"></busy-loader>
   </div>
   <div class="card items" *ngIf="!loading">
     <ul class="item-list striped">
