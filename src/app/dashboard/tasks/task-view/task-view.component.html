@@ -2,6 +2,7 @@
   <busy-loader [isActive]="loading" [big]="loading" [show]="loading" [color]="'#4bcf99'"></busy-loader>
   <div class="title-block" *ngIf="!loading">
     <h3 class="title">
+      <a [routerLink]="['/dashboard', 'tasks']"><i class="fa fa-chevron-left"></i></a>
       {{ task?.name }}
       <span class="sparkline bar" data-type="bar"></span>
     </h3>
