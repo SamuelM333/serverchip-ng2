@@ -1,3 +1,151 @@
-<p>
-  task-creator works!
-</p>
+<article class="content item-editor-page">
+
+  <div class="title-block">
+    <h3 class="title">
+      <a [routerLink]="['/dashboard', 'tasks']"><i class="fa fa-chevron-left"></i></a>
+      New task
+      <span class="sparkline bar" data-type="bar"></span>
+    </h3>
+    <p class="title-description"> Add a new task </p>
+  </div>
+
+  <form role="form">
+    <div class="card card-primary">
+      <div class="card-header">
+        <div class="header-block">
+          <p class="title">Task details</p>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="form-group">
+          <label class="control-label" for="task-name">Task name</label>
+          <input id="task-name" class="form-control" type="text" maxlength="60" required>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="description">Description <span class="text-muted">(optional)</span></label>
+          <textarea id="description" class="form-control" rows="3" maxlength="120"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="microchip-select">Microchip</label>
+          <select id="microchip-select" class="form-control">
+            <option>Option one</option>
+            <option>Option two</option>
+            <option>Option three</option>
+            <option>Option four</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="output-port">Output port</label>
+          <select id="output-port" class="form-control">
+            <option>Option one</option>
+            <option>Option two</option>
+            <option>Option three</option>
+            <option>Option four</option>
+          </select>
+        </div>
+        <!--<div class="form-group has-success">-->
+        <!--<label class="control-label" for="task-name">Task name</label>-->
+        <!--<input type="text" class="form-control" id="inputSuccess1" maxlength="60">-->
+        <!--<span class="has-success"><i class="fa fa-check"></i> Success message.</span>-->
+        <!--</div>-->
+        <!--<div class="form-group has-warning">-->
+        <!--<label class="control-label" for="inputWarning1">Input with warning</label>-->
+        <!--<input type="text" class="form-control" id="inputWarning1">-->
+        <!--<span class="has-warning">Warning message.</span>-->
+        <!--</div>-->
+        <!--<div class="form-group has-error">-->
+        <!--<label class="control-label" for="inputError1">Input with error</label>-->
+        <!--<input type="text" class="form-control" id="inputError1">-->
+        <!--<span class="has-error">Error message.</span>-->
+        <!--</div>-->
+      </div>
+
+    </div>
+
+    <div class="card card-primary">
+      <div class="card-header">
+        <div class="header-block">
+          <p class="title">Conditions</p>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="condition">
+          <div class="form-group">
+            <label class="control-label" for="condition-name">Condition name</label>
+            <input id="condition-name" class="form-control" type="text" maxlength="60" required>
+          </div>
+          <div class="form-group">
+            <div>
+              <label>
+                <input class="radio" name="radios" type="radio">
+                <span>Input port</span>
+              </label>
+              <select id="input-port" class="form-control" disabled>
+                <option>Option one</option>
+                <option>Option two</option>
+                <option>Option three</option>
+                <option>Option four</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div>
+              <label>
+                <input class="radio" name="radios" type="radio" checked>
+                <span>Datetime</span>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input class="checkbox" type="checkbox" name="">
+                <span>Monday</span>
+              </label>
+              <label>
+                <input class="checkbox" type="checkbox" name="">
+                <span>Tuesday</span>
+              </label>
+              <label>
+                <input class="checkbox" type="checkbox" name="">
+                <span>Wednesday</span>
+              </label>
+              <label>
+                <input class="checkbox" type="checkbox" name="">
+                <span>Thursday</span>
+              </label>
+              <label>
+                <input class="checkbox" type="checkbox" name="">
+                <span>Friday</span>
+              </label><label>
+              <input class="checkbox" type="checkbox" name="">
+              <span>Saturday</span>
+            </label><label>
+              <input class="checkbox" type="checkbox" name="">
+              <span>Sunday</span>
+            </label>
+
+
+            </div>
+
+            <div class="form-group form-inline">
+              <label class="control-label" for="hours">Hour</label>
+              <select class="form-control" name="" id="hours">
+                <option value="">00</option>
+              </select>
+              <select class="form-control" name="" id="minutes">
+                <option value="">00</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="add-condition" class="card-footer">
+        <a href=""><i class="fa fa-plus fa-2x text-center"></i></a>
+      </div>
+    </div>
+
+    <div class="form-group pull-right">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</article>
