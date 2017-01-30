@@ -8,6 +8,7 @@ import { APP_ROUTING } from  './app.routing';
 import { AppComponent } from './app.component';
 
 import { ApiService } from './shared/api.service';
+import { BusyLoaderComponent } from './shared/busy-loader/busy-loader.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -30,6 +31,7 @@ import { ReportViewComponent } from './dashboard/reports/report-view/report-view
     ],
     declarations: [
         AppComponent,
+        BusyLoaderComponent,
         SidebarComponent,
         HeaderComponent,
         FooterComponent,

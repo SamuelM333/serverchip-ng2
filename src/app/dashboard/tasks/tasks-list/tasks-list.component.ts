@@ -7,20 +7,25 @@ declare const $: any;
 @Component({
     selector: 'app-tasks',
     templateUrl: './tasks-list.component.html',
-    styles: []
+    styleUrls: ['./tasks-list.component.sass']
 })
 export class TasksListComponent implements OnInit, AfterViewInit {
 
     tasks: Task[] = [];
     pages: number[] = [];
+    loading: boolean = true;
 
     constructor(private apiService: ApiService) { }
 
     ngOnInit() {
+        this.loading = true;
         let error: boolean = false;
         let meta;
         this.apiService.getTasks().subscribe(
-            data => { this.tasks = data._items; meta = data._meta; },
+            data => {
+                this.tasks = data._items;
+                meta = data._meta;
+            },
             err => {
                 error = true;
                 console.log('Error:', err);
@@ -55,6 +60,8 @@ export class TasksListComponent implements OnInit, AfterViewInit {
                         });
                     });
                 }, 500);
+
+                this.loading = false;
             }
         );
     }

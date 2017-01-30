@@ -1,0 +1,14 @@
+<div *ngIf="show"
+     [class.active]="isActive"
+     [class.big]="big"
+     class="preloader-wrapper small">
+  <div class="spinner-layer" [ngStyle]="{'border-color': color}">
+    <div class="circle-clipper left">
+      <div class="circle"></div>
+    </div><div class="gap-patch">
+    <div class="circle"></div>
+  </div><div class="circle-clipper right">
+    <div class="circle"></div>
+  </div>
+  </div>
+</div>
