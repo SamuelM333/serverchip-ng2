@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { ApiService } from "../../../shared/api.service";
-import { Task } from "../../../shared/task";
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../../../shared/api.service';
+import { Task } from '../../../shared/task';
 
 @Component({
     selector: 'app-task-view',
@@ -21,9 +21,9 @@ export class TaskViewComponent implements OnInit {
     ngOnInit() {
         this.loading = true;
         this.apiService.getTaskByID(this._id).subscribe(
-            data => { this.task = data },
-            err => { console.log("Error", err) },
-            () => { this.loading = false; }
+            data => this.task = data,
+            err => console.log('Error', err),
+            () => this.loading = false
         );
     }
 

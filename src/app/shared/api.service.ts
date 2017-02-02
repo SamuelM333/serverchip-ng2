@@ -3,11 +3,11 @@ import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/Rx';
 import { User } from './user';
 import { Microchip } from './microchip';
-import { Report } from "./report";
-import { Task } from "./task";
+import { Report } from './report';
+import { Task } from './task';
 
-// export const apiUrl = 'https://serverchip-samuelm333.rhcloud.com/';
-export const apiUrl = 'http://127.0.0.1:5000/';
+export const apiUrl = 'https://serverchip-samuelm333.rhcloud.com/';
+// export const apiUrl = 'http://127.0.0.1:5000/';
 
 @Injectable()
 export class ApiService {
@@ -28,7 +28,7 @@ export class ApiService {
     }
 
     insertMicrochip(microchip: Microchip) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(apiUrl + 'microchip', JSON.stringify(microchip), { headers: headers }).map(
             (response: Response) => response.json()
@@ -36,7 +36,7 @@ export class ApiService {
     }
 
     updateMicrochip(_id: string, microchip: Microchip) {
-        let headers = new Headers({
+        const headers = new Headers({
             'Content-Type': 'application/json',
             'If-Match': microchip._etag
         });
@@ -47,7 +47,7 @@ export class ApiService {
     }
 
     deleteMicrochip(microchip: Microchip) {
-        let headers = new Headers({
+        const headers = new Headers({
             'If-Match': microchip._etag
         });
 
@@ -77,7 +77,7 @@ export class ApiService {
     }
 
     insertTask(task: Task) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(apiUrl + 'task', JSON.stringify(task), { headers: headers }).map(
             (response: Response) => response.json()
@@ -85,7 +85,7 @@ export class ApiService {
     }
 
     updateTask(_id: string, task: Task) {
-        let headers = new Headers({
+        const headers = new Headers({
             'Content-Type': 'application/json',
             'If-Match': task._etag
         });
@@ -96,7 +96,7 @@ export class ApiService {
     }
 
     deleteTask(_id: string, task: Task) {
-        let headers = new Headers({
+        const headers = new Headers({
             'If-Match': task._etag
         });
 
@@ -120,7 +120,7 @@ export class ApiService {
     }
 
     insertReport(report: Report) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(apiUrl + 'microchip', JSON.stringify(report), { headers: headers }).map(
             (response: Response) => response.json()
@@ -136,7 +136,7 @@ export class ApiService {
     }
 
     insertUser(user: User) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(apiUrl + '/snippet', JSON.stringify(user), { headers: headers }).map(
             (response: Response) => response.json()
@@ -144,7 +144,7 @@ export class ApiService {
     }
 
     updateUser(_id: string, user: User) {
-        let headers = new Headers({
+        const headers = new Headers({
             'Content-Type': 'application/json',
             'If-Match': user._etag
         });
@@ -155,7 +155,7 @@ export class ApiService {
     }
 
     deleteUser(_id: string, user: User) {
-        let headers = new Headers({
+        const headers = new Headers({
             'If-Match': user._etag
         });
 

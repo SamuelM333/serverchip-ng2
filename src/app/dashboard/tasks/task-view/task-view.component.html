@@ -17,19 +17,39 @@
     </p>
     <p><b>Microchip IP: </b>{{ task?.microchip.ip }}</p>
     <p><b>Conditions: </b></p>
-    <ul>
-      <li *ngFor="let condition of task?.conditions">
-        {{condition.name}}
-      </li>
-    </ul>
+    <div class="condition" *ngFor="let condition of task?.conditions">
+      <p><b>Name: </b>{{condition.name}}</p>
+      <span class="sparkline bar" data-type="bar"></span>
+    </div>
+  </div>
+  <div class="pull-right" *ngIf="!loading">
+    <button type="button" class="btn btn-primary">Edit</button>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm-modal">Delete</button>
+  </div>
+</article>
 
-    <div class="row">
-      <div class="btn-group pull-right">
-        <button type="button" class="btn btn-pill-left btn-primary">Primary</button>
-        <button type="button" class="btn btn-warning">Warning</button>
-        <button type="button" class="btn btn-pill-right btn-danger">Danger</button>
+
+<!--Delete modal-->
+<div class="modal fade" id="confirm-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"><i class="fa fa-warning"></i> Alert</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to do delete the microchip "{{microchip?.name}}"?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                (click)="deleteMicrochip()">Yes
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
       </div>
     </div>
   </div>
-</article>
+</div>
+
 
