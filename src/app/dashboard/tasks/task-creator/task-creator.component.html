@@ -6,10 +6,9 @@
       New task
       <span class="sparkline bar" data-type="bar"></span>
     </h3>
-    <p class="title-description"> Add a new task </p>
   </div>
 
-  <form role="form">
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
     <div class="card card-primary">
       <div class="card-header">
         <div class="header-block">
@@ -19,29 +18,35 @@
       <div class="card-block">
         <div class="form-group">
           <label class="control-label" for="task-name">Task name</label>
-          <input id="task-name" class="form-control" type="text" maxlength="60" required>
+          <input ngModel id="task-name" class="form-control" type="text" name="task_name" maxlength="60" required>
         </div>
         <div class="form-group">
           <label class="control-label" for="description">Description <span class="text-muted">(optional)</span></label>
-          <textarea id="description" class="form-control" rows="3" maxlength="120"></textarea>
+          <textarea ngModel id="description" class="form-control" name="description" rows="3"
+                    maxlength="120"></textarea>
         </div>
         <div class="form-group">
           <label class="control-label" for="microchip-select">Microchip</label>
-          <select id="microchip-select" class="form-control">
-            <option>Option one</option>
-            <option>Option two</option>
-            <option>Option three</option>
-            <option>Option four</option>
+          <select ngModel id="microchip-select" class="form-control" name="microchip">
+            <option *ngFor="let microchip of microchips" [value]="microchip._id">{{microchip.name}}</option>
           </select>
         </div>
         <div class="form-group">
           <label class="control-label" for="output-port">Output port</label>
-          <select id="output-port" class="form-control">
-            <option>Option one</option>
-            <option>Option two</option>
-            <option>Option three</option>
-            <option>Option four</option>
+          <select ngModel id="output-port" class="form-control" name="output_port">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
           </select>
+          <label>
+            <input ngModel class="checkbox" type="checkbox" name="output_port_state">
+            <span>Activate?</span>
+          </label>
         </div>
         <!--<div class="form-group has-success">-->
         <!--<label class="control-label" for="task-name">Task name</label>-->
@@ -65,83 +70,95 @@
     <div class="card card-primary">
       <div class="card-header">
         <div class="header-block">
-          <p class="title">Conditions</p>
+          <p class="title">Condition</p>
         </div>
       </div>
       <div class="card-block">
         <div class="condition">
           <div class="form-group">
             <label class="control-label" for="condition-name">Condition name</label>
-            <input id="condition-name" class="form-control" type="text" maxlength="60" required>
+            <input ngModel id="condition-name" class="form-control" name="condition_name" type="text" maxlength="60"
+                   required>
           </div>
           <div class="form-group">
             <div>
               <label>
-                <input class="radio" name="radios" type="radio">
+                <input ngModel (ngModelChange)="checkType($event)" class="radio" name="type"
+                       value="input_port"
+                       type="radio">
                 <span>Input port</span>
               </label>
-              <select id="input-port" class="form-control" disabled>
-                <option>Option one</option>
-                <option>Option two</option>
-                <option>Option three</option>
-                <option>Option four</option>
+              <select ngModel id="input-port" class="form-control" name="input_port" [disabled]="!isInputPort">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
               </select>
+              <label>
+                <input ngModel class="checkbox" type="checkbox" name="input_port_state" [disabled]="!isInputPort">
+                <span>Activate?</span>
+              </label>
             </div>
           </div>
           <div class="form-group">
             <div>
               <label>
-                <input class="radio" name="radios" type="radio" checked>
+                <input ngModel (ngModelChange)="checkType($event)" class="radio" name="type"
+                       type="radio" value="datetime">
                 <span>Datetime</span>
               </label>
             </div>
 
             <div class="form-group">
               <label>
-                <input class="checkbox" type="checkbox" name="">
+                <input ngModel class="checkbox" type="checkbox" name="condition_day_monday" [disabled]="isInputPort">
                 <span>Monday</span>
               </label>
               <label>
-                <input class="checkbox" type="checkbox" name="">
+                <input ngModel class="checkbox" type="checkbox" name="condition_day_tuesday" [disabled]="isInputPort">
                 <span>Tuesday</span>
               </label>
               <label>
-                <input class="checkbox" type="checkbox" name="">
+                <input ngModel class="checkbox" type="checkbox" name="condition_day_wednesday" [disabled]="isInputPort">
                 <span>Wednesday</span>
               </label>
               <label>
-                <input class="checkbox" type="checkbox" name="">
+                <input ngModel class="checkbox" type="checkbox" name="condition_day_thursday" [disabled]="isInputPort">
                 <span>Thursday</span>
               </label>
               <label>
-                <input class="checkbox" type="checkbox" name="">
+                <input ngModel class="checkbox" type="checkbox" name="condition_day_friday" [disabled]="isInputPort">
                 <span>Friday</span>
-              </label><label>
-              <input class="checkbox" type="checkbox" name="">
-              <span>Saturday</span>
-            </label><label>
-              <input class="checkbox" type="checkbox" name="">
-              <span>Sunday</span>
-            </label>
-
-
+              </label>
+              <label>
+                <input ngModel class="checkbox" type="checkbox" name="condition_day_saturday" [disabled]="isInputPort">
+                <span>Saturday</span>
+              </label>
+              <label>
+                <input ngModel class="checkbox" type="checkbox" name="condition_day_sunday" [disabled]="isInputPort">
+                <span>Sunday</span>
+              </label>
             </div>
 
             <div class="form-group form-inline">
               <label class="control-label" for="hours">Hour</label>
-              <select class="form-control" name="" id="hours">
-                <option value="">00</option>
+              <select ngModel class="form-control" name="hour" id="hours" [disabled]="isInputPort">
+                <option value="00">00</option>
               </select>
-              <select class="form-control" name="" id="minutes">
-                <option value="">00</option>
+              <select ngModel class="form-control" name="minutes" id="minutes" [disabled]="isInputPort">
+                <option value="00">00</option>
               </select>
             </div>
           </div>
         </div>
       </div>
-      <div id="add-condition" class="card-footer">
-        <a href=""><i class="fa fa-plus fa-2x text-center"></i></a>
-      </div>
+      <!--<div id="add-condition" class="card-footer">-->
+      <!--<a href=""><i class="fa fa-plus fa-2x text-center"></i></a>-->
+      <!--</div>-->
     </div>
 
     <div class="form-group pull-right">
