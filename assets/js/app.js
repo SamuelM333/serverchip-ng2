@@ -1363,7 +1363,7 @@ $(function() {
 ***********************************************/
 
 // start load bar
-NProgress.start();
+// NProgress.start();
 
 // end loading bar
-NProgress.done();
+// NProgress.done();
