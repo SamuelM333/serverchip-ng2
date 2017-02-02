@@ -4,9 +4,10 @@
     <div class="title-block">
       <div class="row">
         <div class="col-md-6">
-          <h3 class="title"> Microchips <a href="item-editor.html" class="btn btn-primary btn-sm rounded-s">
-            Add New
-          </a>
+          <h3 class="title"> Microchips
+            <a [routerLink]="['/dashboard', 'microchips', 'new']" class="btn btn-primary btn-sm rounded-s">
+              Add New
+            </a>
           </h3>
           <p class="title-description"> List of microchips on this server </p>
         </div>
@@ -57,7 +58,7 @@
           <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
         </div>
       </li>
-      <li *ngFor="let microchip of microchips" class="item">
+      <li *ngFor="let microchip of microchips; let i = index" class="item">
         <div class="item-row">
           <div class="item-col fixed item-col-check"><label class="item-check">
             <input type="checkbox" class="checkbox">
@@ -72,14 +73,14 @@
           <div class="item-col fixed pull-left item-col-title">
             <div class="item-heading">Name</div>
             <div>
-              <a [routerLink]="['/dashboard', 'microchips', microchip._id]" class="">
+              <a [routerLink]="['/dashboard', 'microchips', microchip._id]">
                 <h4 class="item-title"> {{ microchip?.name }} </h4>
               </a>
             </div>
           </div>
           <div class="item-col item-col-sales">
             <div class="item-heading">Tasks</div>
-            <div>{{microchip?.tasks?.length || 0}}</div>
+            <div>{{ microchip?.tasks }}</div>
           </div>
           <!--<div class="item-col item-col-stats no-overflow">-->
           <!--<div class="item-heading">Stats</div>-->
@@ -109,8 +110,9 @@
               <div class="item-actions-block">
                 <ul class="item-actions-list">
                   <li>
-                    <a class="remove" href="#" data-toggle="modal" data-target="#confirm-modal"> <i
-                      class="fa fa-trash-o "></i> </a>
+                    <a class="remove" data-toggle="modal" data-target="#confirm-modal"
+                       (click)="onClickDeleteMicrochip(i)">
+                      <i class="fa fa-trash-o"></i></a>
                   </li>
                   <li>
                     <a class="edit" href="item-editor.html"> <i class="fa fa-pencil"></i> </a>
@@ -131,3 +133,25 @@
     </ul>
   </nav>
 </article>
+
+
+<!--Delete modal-->
+<div class="modal fade" id="confirm-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+        <h4 class="modal-title"><i class="fa fa-warning"></i> Alert</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to do delete the microchip "{{microchip_to_delete?.name}}"?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                (click)="deleteMicrochip(microchip_to_delete)">Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>

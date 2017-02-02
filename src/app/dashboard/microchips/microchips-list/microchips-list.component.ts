@@ -14,6 +14,7 @@ export class MicrochipsListComponent implements OnInit, AfterViewInit {
     microchips: Microchip[];
     pages: number[] = [];
     loading: boolean;
+    microchip_to_delete: Microchip;
 
     constructor(private apiService: ApiService) { }
 
@@ -27,13 +28,13 @@ export class MicrochipsListComponent implements OnInit, AfterViewInit {
                 meta = data._meta;
                 for (let i = 0; i < this.microchips.length; i++) {
                     this.apiService.getTaskByMicrochipID(this.microchips[i]._id).subscribe(
-                        data => { this.microchips[i].tasks = data._items }
+                        data => { this.microchips[i].tasks = data._meta.total }
                     );
                 }
             },
-            err => {
+            e => {
                 error = true;
-                console.log('Error:', err);
+                console.log('Error:', e);
             },
             () => {
                 let total = meta.total;
@@ -75,6 +76,18 @@ export class MicrochipsListComponent implements OnInit, AfterViewInit {
         document.getElementById("app").classList.add("header-fixed");
         document.getElementById("app").classList.add("sidebar-fixed");
         document.getElementById("app").classList.remove("sidebar-open");
+    }
+
+    onClickDeleteMicrochip(index: number) {
+        this.microchip_to_delete = this.microchips[index];
+    }
+
+    deleteMicrochip(microchip: Microchip) {
+        this.apiService.deleteMicrochip(microchip).subscribe(
+            data => this.microchips.splice(this.microchips.indexOf(microchip), 1),
+            error => console.log(error),
+            () => {}
+        );
     }
 
 }

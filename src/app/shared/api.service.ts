@@ -46,12 +46,12 @@ export class ApiService {
         );
     }
 
-    deleteMicrochip(_id: string, microchip: Microchip) {
+    deleteMicrochip(microchip: Microchip) {
         let headers = new Headers({
             'If-Match': microchip._etag
         });
 
-        return this.http.delete(apiUrl + 'microchip/' + _id, { headers: headers }).map(
+        return this.http.delete(apiUrl + 'microchip/' + microchip._id, { headers: headers }).map(
             (response: Response) => response.json()
         );
     }

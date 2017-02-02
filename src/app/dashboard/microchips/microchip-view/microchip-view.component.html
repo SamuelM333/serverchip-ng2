@@ -11,18 +11,45 @@
   </div>
 
   <div class="card card-block" *ngIf="!loading">
-    <div class="text-center">
-      <img id="microchip-img" class="img-fluid mx-auto d-block" src="assets/img/placeholder.png" alt="microchip">
-    </div>
+    <!--<div class="text-center">-->
+      <!--<img id="microchip-img" class="img-fluid mx-auto d-block" src="assets/img/placeholder.png" alt="microchip">-->
+    <!--</div>-->
     <p><b>Microchip IP: </b>{{ microchip?.ip }}</p>
     <p><b>Owner name: </b>{{ microchip?.owner.name }} {{ microchip?.owner.last_name }}</p>
-    <div class="row">
-      <div class="btn-group pull-right">
-        <button type="button" class="btn btn-pill-left btn-primary">Primary</button>
-        <button type="button" class="btn btn-warning">Warning</button>
-        <button type="button" class="btn btn-pill-right btn-danger">Danger</button>
-      </div>
-    </div>
+    <p><b>Tasks:</b> <span *ngIf="tasks.length === 0"> None</span></p>
+    <ul *ngIf="tasks.length > 0">
+      <li *ngFor="let task of tasks">
+        <a [routerLink]="['/dashboard', 'tasks', task._id]">{{task.name}}</a>
+      </li>
+    </ul>
+
+  </div>
+  <div class="pull-right">
+    <button type="button" class="btn btn-primary">Edit</button>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm-modal">Delete</button>
   </div>
 
 </article>
+
+<!--Delete modal-->
+<div class="modal fade" id="confirm-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"><i class="fa fa-warning"></i> Alert</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to do delete the microchip "{{microchip?.name}}"?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                (click)="deleteMicrochip()">Yes
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
