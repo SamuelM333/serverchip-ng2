@@ -58,13 +58,12 @@ export class TaskCreatorComponent implements OnInit {
                 { number: form.value.input_port, state: form.value.input_port_state }
             );
             delete condition.datetime;
-
         }
 
 
 
         task = new Task(
-            form.value.condition_name,
+            form.value.task_name,
             form.value.microchip,
             { number: form.value.output_port, state: form.value.output_port_state },
             [condition]

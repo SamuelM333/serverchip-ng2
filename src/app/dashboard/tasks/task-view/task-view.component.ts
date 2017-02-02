@@ -21,8 +21,8 @@ export class TaskViewComponent implements OnInit {
     ngOnInit() {
         this.loading = true;
         this.apiService.getTaskByID(this._id).subscribe(
-            data => {this.task = data},
-            err => {console.log("Error", err)},
+            data => { this.task = data },
+            err => { console.log("Error", err) },
             () => { this.loading = false; }
         );
     }

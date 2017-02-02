@@ -6,8 +6,8 @@ import { Microchip } from './microchip';
 import { Report } from "./report";
 import { Task } from "./task";
 
-export const apiUrl = 'https://serverchip-samuelm333.rhcloud.com/';
-// export const apiUrl = 'http://127.0.0.1:5000/';
+// export const apiUrl = 'https://serverchip-samuelm333.rhcloud.com/';
+export const apiUrl = 'http://127.0.0.1:5000/';
 
 @Injectable()
 export class ApiService {

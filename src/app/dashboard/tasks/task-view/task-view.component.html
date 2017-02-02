@@ -12,8 +12,17 @@
 
     <p><b>Output port number: </b>{{ task?.output_port.number }}</p>
     <p><b>Output port state: </b>{{ task?.output_port.state }}</p>
-    <p><b>Microchip name: </b>{{ task?.microchip.name }}</p>
+    <p><b>Microchip: </b>
+      <a [routerLink]="['/dashboard', 'microchips', task?.microchip._id]">{{ task?.microchip.name }}</a>
+    </p>
     <p><b>Microchip IP: </b>{{ task?.microchip.ip }}</p>
+    <p><b>Conditions: </b></p>
+    <ul>
+      <li *ngFor="let condition of task?.conditions">
+        {{condition.name}}
+      </li>
+    </ul>
+
     <div class="row">
       <div class="btn-group pull-right">
         <button type="button" class="btn btn-pill-left btn-primary">Primary</button>
