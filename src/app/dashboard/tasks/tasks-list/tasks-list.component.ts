@@ -14,6 +14,7 @@ export class TasksListComponent implements OnInit, AfterViewInit {
     tasks: Task[] = [];
     pages: number[] = [];
     loading: boolean = true;
+    task_to_delete: Task;
 
     constructor(private apiService: ApiService) { }
 
@@ -70,6 +71,14 @@ export class TasksListComponent implements OnInit, AfterViewInit {
         document.getElementById("app").classList.add("header-fixed");
         document.getElementById("app").classList.add("sidebar-fixed");
         document.getElementById("app").classList.remove("sidebar-open");
+    }
+
+    deleteTask(task: Task) {
+        this.apiService.deleteTask(task).subscribe(
+            data => this.tasks.splice(this.tasks.indexOf(task), 1),
+            error => console.log(error),
+            () => {}
+        );
     }
 
 }

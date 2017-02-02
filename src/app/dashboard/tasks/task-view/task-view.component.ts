@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../shared/api.service';
 import { Task } from '../../../shared/task';
 
@@ -14,7 +14,7 @@ export class TaskViewComponent implements OnInit {
     task: Task;
     loading: boolean;
 
-    constructor(private apiService: ApiService, private activatedRoute: ActivatedRoute) {
+    constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute) {
         this._id = activatedRoute.snapshot.params['id'];
     }
 
@@ -24,6 +24,15 @@ export class TaskViewComponent implements OnInit {
             data => this.task = data,
             err => console.log('Error', err),
             () => this.loading = false
+        );
+    }
+
+    deleteTask() {
+        let success = false;
+        this.apiService.deleteTask(this.task).subscribe(
+            data => success = true,
+            error => console.log(error),
+            () => success == true ? this.router.navigateByUrl('/dashboard/tasks') : console.log('error')
         );
     }
 
