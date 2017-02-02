@@ -95,12 +95,12 @@ export class ApiService {
         );
     }
 
-    deleteTask(_id: string, task: Task) {
+    deleteTask(task: Task) {
         const headers = new Headers({
             'If-Match': task._etag
         });
 
-        return this.http.delete(apiUrl + 'task/' + _id, { headers: headers }).map(
+        return this.http.delete(apiUrl + 'task/' + task._id, { headers: headers }).map(
             (response: Response) => response.json()
         );
     }
