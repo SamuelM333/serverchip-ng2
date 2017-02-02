@@ -1,0 +1,39 @@
+<article class="content item-editor-page">
+
+  <div class="title-block">
+    <h3 class="title">
+      <a [routerLink]="['/dashboard', 'microchips']"><i class="fa fa-chevron-left"></i></a>
+      New microchip
+      <span class="sparkline bar" data-type="bar"></span>
+    </h3>
+  </div>
+
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div class="card card-primary">
+      <div class="card-header">
+        <div class="header-block">
+          <p class="title">Microchip details</p>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="form-group">
+          <label class="control-label" for="microchip-name">Microchip name</label>
+          <input ngModel id="microchip-name" class="form-control" name="name" type="text" maxlength="60" required>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="description">Description <span class="text-muted">(optional)</span></label>
+          <textarea ngModel id="description" name="description" class="form-control" rows="3" maxlength="120"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="ip">IP</label>
+          <input ngModel id="ip" class="form-control" name="ip" type="text" maxlength="60" required>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-group pull-right">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid || loading">Submit</button>
+    </div>
+  </form>
+</article>

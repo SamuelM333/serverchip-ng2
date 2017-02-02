@@ -22,6 +22,7 @@ import { TaskViewComponent } from './dashboard/tasks/task-view/task-view.compone
 import { MicrochipViewComponent } from './dashboard/microchips/microchip-view/microchip-view.component';
 import { ReportViewComponent } from './dashboard/reports/report-view/report-view.component';
 import { TaskCreatorComponent } from './dashboard/tasks/task-creator/task-creator.component';
+import { MicrochipCreatorComponent } from './dashboard/microchips/microchip-creator/microchip-creator.component';
 
 @NgModule({
     imports: [
@@ -46,6 +47,7 @@ import { TaskCreatorComponent } from './dashboard/tasks/task-creator/task-creato
         ReportsListComponent,
         ReportViewComponent,
         TaskCreatorComponent,
+        MicrochipCreatorComponent,
     ],
     providers: [ApiService],
     bootstrap: [AppComponent]
