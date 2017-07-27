@@ -1,14 +1,14 @@
-import { ServerchipWebAppPage } from './app.po';
+import { KekPage } from './app.po';
 
-describe('serverchip-web-app App', function() {
-  let page: ServerchipWebAppPage;
+describe('kek App', () => {
+  let page: KekPage;
 
   beforeEach(() => {
-    page = new ServerchipWebAppPage();
+    page = new KekPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('Welcome to app!');
   });
 });

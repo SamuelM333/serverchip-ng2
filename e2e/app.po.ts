@@ -1,6 +1,6 @@
-import { browser, element, by } from 'protractor';
+import { browser, by, element } from 'protractor';
 
-export class ServerchipWebAppPage {
+export class KekPage {
   navigateTo() {
     return browser.get('/');
   }
