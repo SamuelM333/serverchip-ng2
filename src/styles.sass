@@ -1,8 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+//@import '~@angular/material/prebuilt-themes/pink-bluegrey.css'
+@import "theme"
 
-@import "../bower_components/materialize/sass/components/color"
-@import "../bower_components/materialize/sass/components/variables"
-@import "../bower_components/materialize/sass/components/preloader"
+
+html, body, app-root
+    display: flex
+    flex-direction: column
+
+    font-family: Roboto, 'Helvetica Neue', sans-serif
+    margin: 0
+    height: 100%
 
 textarea
     resize: none
