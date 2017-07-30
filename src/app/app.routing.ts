@@ -1,8 +1,7 @@
 import { Routes, RouterModule } from  '@angular/router';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { DASHBOARD_ROUTES } from './dashboard/dashboard.routes';
-
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 
