@@ -1,24 +1,24 @@
-<md-card class="main-card">
+<md-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></md-progress-spinner>
+<md-card [class.hidden]="loading" class="main-card">
   <md-card-content>
     <article class="content items-list-page">
-      <md-progress-spinner *ngIf="loading" color="primary" mode="indeterminate"></md-progress-spinner>
       <div class="title-block">
         <h1 class="title">Tasks
           <a md-raised-button color="primary" [routerLink]="['/dashboard', 'tasks', 'new']">Add New</a>
         </h1>
-        <h3>List of tasks in this server</h3>
+        <span>List of tasks in this server</span>
       </div>
       <div class="card items">
         <!-- Table with tasks -->
         <div class="filter-input-container">
           <md-input-container floatPlaceholder="never">
-            <input mdInput #filter placeholder="Filter users">
+            <input mdInput #filter placeholder="Filter tasks">
           </md-input-container>
         </div>
-        <md-table #table *ngIf="!loading" [class.hidden]="loading" [dataSource]="dataSource">
+        <md-table #table *ngIf="!loading" [dataSource]="dataSource">
           <ng-container cdkColumnDef="name">
             <md-header-cell *cdkHeaderCellDef> Name </md-header-cell>
-            <md-cell *cdkCellDef="let row"><a href="#">{{row.name}}</a></md-cell>
+            <md-cell *cdkCellDef="let row"><a href="#" class="table-link">{{row.name}}</a></md-cell>
           </ng-container>
           <ng-container cdkColumnDef="outputPort">
             <md-header-cell *cdkHeaderCellDef> Output port </md-header-cell>
@@ -26,7 +26,7 @@
           </ng-container>
           <ng-container cdkColumnDef="microchip">
             <md-header-cell *cdkHeaderCellDef> Microchip </md-header-cell>
-            <md-cell *cdkCellDef="let row"><a href="#">{{row.microchip.name}}</a></md-cell>
+            <md-cell *cdkCellDef="let row"><a href="#" class="table-link">{{row.microchip.name}}</a></md-cell>
           </ng-container>
           <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
           <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
