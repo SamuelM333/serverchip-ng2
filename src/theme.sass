@@ -9,7 +9,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn)
 
 @include angular-material-theme($app-theme)
 
-a:visited.table-link
+a.text-link, a:visited.text-link
     color: rgba(0, 0, 0, 0.87)
 
 // Define an alternate dark theme.
@@ -21,5 +21,5 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn)
 .dark-theme
     @include angular-material-theme($dark-theme)
 
-    & a:visited.table-link
+    & a.text-link, a:visited.text-link
         color: white

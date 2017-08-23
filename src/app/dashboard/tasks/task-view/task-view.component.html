@@ -1,55 +1,40 @@
-<article class="content item-editor-page">
-  <busy-loader [isActive]="loading" [big]="loading" [show]="loading" [color]="'#4bcf99'"></busy-loader>
-  <div class="title-block" *ngIf="!loading">
-    <h3 class="title">
-      <a [routerLink]="['/dashboard', 'tasks']"><i class="fa fa-chevron-left"></i></a>
-      {{ task?.name }}
-      <span class="sparkline bar" data-type="bar"></span>
-    </h3>
-    <p class="title-description"> {{ task?.description }} </p>
-  </div>
-  <div class="card card-block" *ngIf="!loading">
-
-    <p><b>Output port number: </b>{{ task?.output_port.number }}</p>
-    <p><b>Output port state: </b>{{ task?.output_port.state }}</p>
-    <p><b>Microchip: </b>
-      <a [routerLink]="['/dashboard', 'microchips', task?.microchip._id]">{{ task?.microchip.name }}</a>
-    </p>
-    <p><b>Microchip IP: </b>{{ task?.microchip.ip }}</p>
-    <p><b>Conditions: </b></p>
-    <div class="condition" *ngFor="let condition of task?.conditions">
-      <p><b>Name: </b>{{condition.name}}</p>
-      <span class="sparkline bar" data-type="bar"></span>
-    </div>
-  </div>
-  <div class="pull-right" *ngIf="!loading">
-    <button type="button" class="btn btn-primary">Edit</button>
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm-modal">Delete</button>
-  </div>
-</article>
-
-
-<!--Delete modal-->
-<div class="modal fade" id="confirm-modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title"><i class="fa fa-warning"></i> Alert</h4>
+<md-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></md-progress-spinner>
+<md-card [class.hidden]="loading" *ngIf="!loading" class="main-card">
+  <md-card-content>
+    <article class="content">
+      <div>
+        <h1 class="card-title">
+          <a class="text-link" [routerLink]="['/dashboard', 'tasks']">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> {{task?.name}}
+          </a>
+        </h1>
+        <h3 class="card-subtitle">{{task?.description}}</h3>
       </div>
-      <div class="modal-body">
-        <p>Are you sure want to do delete the microchip "{{task?.name}}"?</p>
+      <div>
+        <p><b>Output port number: </b>{{ task?.output_port.number }}</p>
+        <p><b>Output port state: </b>{{ task?.output_port.state }}</p>
+        <p>
+          <b>Microchip: </b>
+          <a class="text-link" [routerLink]="['/dashboard', 'microchips', task?.microchip._id]">
+            {{ task?.microchip.name }}
+          </a>
+        </p>
+        <p><b>Microchip IP: </b>{{ task?.microchip.ip }}</p>
+        <p><b>Conditions: </b></p>
+        <div class="condition" *ngFor="let condition of task?.conditions">
+          <p><b>Name: </b>{{condition.name}}</p>
+        </div>
+        <div class="card-actions">
+          <a md-fab color="primary" [routerLink]="['/dashboard', 'tasks', 'edit', task?._id]"
+             mdTooltip="Edit task" mdTooltipPosition="below">
+            <md-icon>edit</md-icon>
+          </a>
+          <button md-fab color="warn" (click)="openDialog()"
+                  mdTooltip="Delete task" mdTooltipPosition="below">
+            <md-icon>delete</md-icon>
+          </button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal"
-                (click)="deleteTask()">Yes
-        </button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
+    </article>
+  </md-card-content>
+</md-card>

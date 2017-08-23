@@ -7,6 +7,7 @@ import {
     MdMenuModule,
     MdIconModule,
     MdToolbarModule,
+    MdTooltipModule,
     MdListModule,
     MdProgressBarModule,
     MdProgressSpinnerModule,
@@ -20,7 +21,7 @@ import {
     MdAutocompleteModule
 } from '@angular/material';
 
-let modules = [
+const modules = [
     CdkTableModule,
     MdButtonModule,
     MdCheckboxModule,
@@ -28,6 +29,7 @@ let modules = [
     MdMenuModule,
     MdIconModule,
     MdToolbarModule,
+    MdTooltipModule,
     MdListModule,
     MdProgressBarModule,
     MdProgressSpinnerModule,

@@ -1,13 +1,13 @@
-import 'hammerjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import 'hammerjs';
 
 import { MaterialModule } from './material.module';
-import { APP_ROUTING } from  './app.routing';
+import { APP_ROUTING } from './app.routing';
 import { AppComponent } from './app.component';
 
 import { ApiService } from './shared/api.service';
@@ -20,7 +20,7 @@ import { FooterComponent } from './dashboard/shared/footer/footer.component';
 import { TasksListComponent } from './dashboard/tasks/tasks-list/tasks-list.component';
 import { ReportsListComponent } from './dashboard/reports/reports-list/reports-list.component';
 import { MicrochipsListComponent } from './dashboard/microchips/microchips-list/microchips-list.component';
-import { TaskViewComponent } from './dashboard/tasks/task-view/task-view.component';
+import { TaskViewComponent, DeleteTaskDialogComponent } from './dashboard/tasks/task-view/task-view.component';
 import { MicrochipViewComponent } from './dashboard/microchips/microchip-view/microchip-view.component';
 import { ReportViewComponent } from './dashboard/reports/report-view/report-view.component';
 import { TaskCreatorComponent } from './dashboard/tasks/task-creator/task-creator.component';
@@ -39,6 +39,7 @@ import { MicrochipCreatorComponent } from './dashboard/microchips/microchip-crea
     ],
     declarations: [
         AppComponent,
+        DeleteTaskDialogComponent,
         BusyLoaderComponent,
         SidebarComponent,
         FooterComponent,
@@ -54,6 +55,7 @@ import { MicrochipCreatorComponent } from './dashboard/microchips/microchip-crea
         TaskCreatorComponent,
         MicrochipCreatorComponent,
     ],
+    entryComponents: [DeleteTaskDialogComponent],
     providers: [ApiService, MaterialModule],
     bootstrap: [AppComponent],
     schemas: [NO_ERRORS_SCHEMA]
