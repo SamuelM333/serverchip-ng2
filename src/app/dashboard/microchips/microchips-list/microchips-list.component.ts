@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { DataSource } from '@angular/cdk';
-import { MdPaginator } from '@angular/material';
+import { DataSource } from '@angular/cdk/table';
+import { MatPaginator } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
@@ -19,7 +19,7 @@ import { Microchip } from '../../../shared/microchip';
 })
 export class MicrochipsListComponent implements OnInit {
     @ViewChild('filter') filter: ElementRef;
-    @ViewChild(MdPaginator) paginator: MdPaginator;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     displayedColumns = ['name', 'tasks', 'ip']; // TODO Add Owner and date added
     database: MicrochipsData;
     dataSource: MicrochipTableDataSource | null;
@@ -94,7 +94,7 @@ class MicrochipTableDataSource extends DataSource<any> {
     set filter(filter: string) { this._filterChange.next(filter); }
     private _filterChange = new BehaviorSubject('');
 
-    constructor(private _microchipsData: MicrochipsData, private _paginator: MdPaginator) {
+    constructor(private _microchipsData: MicrochipsData, private _paginator: MatPaginator) {
         super();
     }
 

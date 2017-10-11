@@ -1,0 +1,88 @@
+<p matDialogTitle>Add a condition</p>
+<mat-dialog-content>
+  <div class="form-container">
+    <form class="form-container" [formGroup]="options">
+      <div fxLayout="column" fxLayoutGap="10px">
+        <mat-radio-group formControlName="conditionType">
+          <mat-radio-button color="primary" value="InputPort">Input Port</mat-radio-button>
+          <mat-radio-button color="primary" value="DayHour">Day-hour</mat-radio-button>
+        </mat-radio-group>
+        <mat-form-field floatPlaceholder="auto">
+          <input matInput formControlName="name" placeholder="Name" required>
+        </mat-form-field>
+        <div *ngIf="options.value.conditionType === 'InputPort'">
+          <div fxLayout="column" fxLayoutAlign="center stretch">
+            <mat-form-field floatPlaceholder="auto">
+              <mat-select id="input-port-select" formControlName="inputPortNumber">
+                <mat-option *ngFor="let availablePort of availablePorts" [value]="availablePort">
+                  {{ availablePort }}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Input port number</mat-placeholder>
+            </mat-form-field>
+            <div fxLayout="row" class="sub-container">
+              <label>State: </label>
+              <mat-radio-group formControlName="inputPortState">
+                <mat-radio-button color="primary" [value]="true">True</mat-radio-button>
+                <mat-radio-button color="primary" [value]="false">False</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="options.value.conditionType === 'DayHour'">
+          <mat-form-field floatPlaceholder="auto">
+            <mat-select formControlName="daySelect">
+              <mat-option *ngFor="let day of DAYS" [value]="day">
+                {{ day }}
+              </mat-option>
+            </mat-select>
+            <mat-placeholder>Day</mat-placeholder>
+          </mat-form-field>
+          <div fxLayout="row">
+            <mat-form-field floatPlaceholder="auto">
+              <mat-select formControlName="startHourSelect">
+                <mat-option *ngFor="let i of HOURS" [value]="i">
+                  {{ i }}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Start hour</mat-placeholder>
+            </mat-form-field>
+            <mat-form-field floatPlaceholder="auto">
+              <mat-select formControlName="startMinuteSelect">
+                <mat-option *ngFor="let i of MINUTES" [value]="i">
+                  {{ i }}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Start minute</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row">
+            <mat-form-field floatPlaceholder="auto">
+              <mat-select formControlName="endHourSelect">
+                <mat-option *ngFor="let i of HOURS" [value]="i">
+                  {{ i }}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>End hour</mat-placeholder>
+            </mat-form-field>
+            <mat-form-field floatPlaceholder="auto">
+              <mat-select formControlName="endMinuteSelect">
+                <mat-option *ngFor="let i of MINUTES" [value]="i">
+                  {{ i }}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>End minute</mat-placeholder>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div fxLayout="row">
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" (click)="closeDialog()">Add</button>
+    <button mat-raised-button color="warn" [matDialogClose]="false">Cancel</button>
+  </div>
+</mat-dialog-actions>

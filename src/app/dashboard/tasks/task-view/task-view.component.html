@@ -1,15 +1,16 @@
-<md-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></md-progress-spinner>
-<md-card [class.hidden]="loading" *ngIf="!loading" class="main-card">
-  <md-card-content>
-    <article class="content">
-      <div>
-        <h1 class="card-title">
-          <a class="text-link" [routerLink]="['/dashboard', 'tasks']">
-            <i class="fa fa-chevron-left" aria-hidden="true"></i> {{task?.name}}
-          </a>
-        </h1>
-        <h3 class="card-subtitle">{{task?.description}}</h3>
-      </div>
+<mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></mat-progress-spinner>
+<article *ngIf="!loading">
+  <app-card [cardWidth]="33">
+    <div>
+
+      <!-- Card title -->
+      <h1 class="card-title">
+        <a class="text-link" (click)="back()">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i> {{task?.name}}
+        </a>
+      </h1>
+      <span>{{ task?.description}}</span>
+
       <div>
         <p><b>Output port number: </b>{{ task?.output_port.number }}</p>
         <p><b>Output port state: </b>{{ task?.output_port.state }}</p>
@@ -21,20 +22,25 @@
         </p>
         <p><b>Microchip IP: </b>{{ task?.microchip.ip }}</p>
         <p><b>Conditions: </b></p>
-        <div class="condition" *ngFor="let condition of task?.conditions">
+        <div class="sub-item" *ngFor="let condition of task?.conditions">
           <p><b>Name: </b>{{condition.name}}</p>
+          <p><b>Datetime: </b>{{condition.day_hour?.days}}, {{condition.day_hour?.hour}}</p>
+          <p><b>Input port: </b>
+            <span *ngIf="condition.input_port">{{condition.input_port?.number}}, {{condition.input_port?.state}}</span>
+          </p>
         </div>
-        <div class="card-actions">
-          <a md-fab color="primary" [routerLink]="['/dashboard', 'tasks', 'edit', task?._id]"
-             mdTooltip="Edit task" mdTooltipPosition="below">
-            <md-icon>edit</md-icon>
-          </a>
-          <button md-fab color="warn" (click)="openDialog()"
-                  mdTooltip="Delete task" mdTooltipPosition="below">
-            <md-icon>delete</md-icon>
-          </button>
+
+        <!-- Card actions -->
+        <div>
+          <span fxFlex></span>
+          <div fxLayout="row" fxLayoutGap="10px">
+            <button mat-raised-button color="warn" (click)="openDialog()">Delete</button>
+            <a mat-raised-button color="primary" [routerLink]="['/dashboard', 'tasks', 'edit', task?._id]">
+              Edit
+            </a>
+          </div>
         </div>
       </div>
-    </article>
-  </md-card-content>
-</md-card>
+    </div>
+  </app-card>
+</article>

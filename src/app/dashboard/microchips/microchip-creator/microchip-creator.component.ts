@@ -1,40 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { ApiService } from "../../../shared/api.service";
-import { User } from "../../../shared/user";
-import { Microchip } from "../../../shared/microchip";
+import { ApiService } from '../../../shared/api.service';
+import { User } from '../../../shared/user';
+import { Microchip } from '../../../shared/microchip';
 
 
 @Component({
     selector: 'app-microchip-creator',
     templateUrl: './microchip-creator.component.html',
-    styleUrls: ['./microchip-creator.component.sass']
+    styles: [`
+        .form-field {
+            width: 500px;
+            margin-left: 0;
+        }
+    `]
 })
 export class MicrochipCreatorComponent implements OnInit {
 
-    loading: boolean = false;
+    loading = false;
     user: User;
 
-    constructor(private router: Router, private apiService: ApiService) {
+    constructor(private router: Router, private apiService: ApiService, private location: Location) {
         this.user = JSON.parse(localStorage.getItem('user'));
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.apiService.getUser('58892f662589503db4700db3').subscribe(
+            (data) => this.user = data
+        );
+    }
+
+    back() {
+        this.location.back();
+    }
 
     onSubmit(form: NgForm) {
         this.loading = true;
-        let microchip = new Microchip(
+        const microchip = new Microchip(
             form.value.name,
-            // this.user._id,
-            "58892f662589503db4700db3",
-            form.value.ip)
-        form.value.description ? microchip.description = form.value.description : {};
+            this.user,
+            form.value.ip
+        );
+        microchip.description = form.value.description ? form.value.description : '';
 
         this.apiService.insertMicrochip(microchip).subscribe(
             data => this.router.navigateByUrl('/dashboard/microchips/' + data._id),
-            error => console.log("Error", error),
+            error => console.log('Error', error),
             () => this.loading = false
         );
     }

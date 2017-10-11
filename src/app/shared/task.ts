@@ -1,4 +1,5 @@
 import { Condition } from './condition';
+import { Microchip } from './microchip';
 
 export class Task {
 
@@ -6,7 +7,7 @@ export class Task {
     _etag: string;
     name: string;
     description: string;
-    microchip: string;
+    microchip: Microchip;
     output_port: {
         number: number;
         state: boolean;
@@ -14,8 +15,8 @@ export class Task {
     conditions: Condition[];
 
 
-    constructor(name: string, microchip: string, output_port: { number: number; state: boolean },
-                conditions: Condition[], _id?: string, _etag?: string, description?: string,) {
+    constructor(name: string, microchip: Microchip, output_port: { number: number; state: boolean },
+                conditions: Condition[], _id?: string, _etag?: string, description?: string) {
         this._id = _id;
         this._etag = _etag;
         this.name = name;

@@ -1,43 +1,43 @@
-<md-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></md-progress-spinner>
-<md-card [class.hidden]="loading" class="main-card">
-  <md-card-content>
-    <article class="content items-list-page">
-      <div class="title-block">
-        <h1 class="title">Tasks
-          <a md-raised-button color="primary" [routerLink]="['/dashboard', 'tasks', 'new']">Add New</a>
-        </h1>
-        <span>List of tasks in this server</span>
-      </div>
-      <div class="card items">
-        <!-- Table with tasks -->
-        <div class="filter-input-container">
-          <md-input-container floatPlaceholder="never">
-            <input mdInput #filter placeholder="Filter tasks">
-          </md-input-container>
-        </div>
-        <md-table #table *ngIf="!loading" [dataSource]="dataSource">
-          <ng-container cdkColumnDef="name">
-            <md-header-cell *cdkHeaderCellDef> Name </md-header-cell>
-            <md-cell *cdkCellDef="let row"><a href="#" class="table-link">{{row.name}}</a></md-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="outputPort">
-            <md-header-cell *cdkHeaderCellDef> Output port </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.output_port.number}} </md-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="microchip">
-            <md-header-cell *cdkHeaderCellDef> Microchip </md-header-cell>
-            <md-cell *cdkCellDef="let row"><a href="#" class="table-link">{{row.microchip.name}}</a></md-cell>
-          </ng-container>
-          <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-          <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-        </md-table>
-        <md-paginator #paginator
-                      [length]="dataLength"
-                      [pageIndex]="0"
-                      [pageSize]="5"
-                      [pageSizeOptions]="[5, 10, 25, 100]">
-        </md-paginator>
-      </div>
-    </article>
-  </md-card-content>
-</md-card>
+<mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></mat-progress-spinner>
+<article [class.hidden]="loading">
+  <app-card [cardWidth]="66">
+    <h1 class="card-title">Tasks</h1>
+    <span>List of tasks in this server</span>
+    <!-- Table with tasks -->
+    <div class="filter-input-container">
+      <mat-form-field floatPlaceholder="never">
+        <input matInput #filter placeholder="Filter tasks">
+      </mat-form-field>
+    </div>
+    <mat-table #table *ngIf="!loading" [dataSource]="dataSource">
+      <ng-container cdkColumnDef="name">
+        <mat-header-cell *cdkHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *cdkCellDef="let row">
+          <a [routerLink]="['/dashboard', 'tasks', row._id]" class="text-link">{{row.name}}</a>
+        </mat-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="outputPort">
+        <mat-header-cell *cdkHeaderCellDef>Output port</mat-header-cell>
+        <mat-cell *cdkCellDef="let row">{{row.output_port.number}}</mat-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="microchip">
+        <mat-header-cell *cdkHeaderCellDef>Microchip</mat-header-cell>
+        <mat-cell *cdkCellDef="let row">
+          <a [routerLink]="['/dashboard', 'microchips', row.microchip._id]" class="text-link">{{row.microchip.name}}</a>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator
+                   [length]="dataLength"
+                   [pageIndex]="0"
+                   [pageSize]="5"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+    <div fxLayout="row">
+      <span fxFlex></span>
+      <a mat-raised-button color="primary" [routerLink]="['/dashboard', 'tasks', 'new']">Add task</a>
+    </div>
+  </app-card>
+</article>

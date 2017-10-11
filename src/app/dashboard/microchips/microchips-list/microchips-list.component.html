@@ -1,202 +1,47 @@
-<md-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></md-progress-spinner>
-<md-card [class.hidden]="loading" class="main-card">
-  <md-card-content>
-    <article class="content items-list-page">
-      <div class="title-block">
-        <h1 class="title">Microchips
-          <a md-raised-button color="primary" [routerLink]="['/dashboard', 'microchips ', 'new']">Add New</a>
-        </h1>
-        <span>List of microchips on this server</span>
+<mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></mat-progress-spinner>
+<article [class.hidden]="loading">
+  <app-card [cardWidth]="66">
+    <div>
+      <!-- Card title -->
+      <h1 class="card-title">Microchips</h1>
+      <span>List of microchips in this server</span>
+
+      <!-- Table with microchips -->
+      <div class="filter-input-container">
+        <mat-form-field floatPlaceholder="never">
+          <input matInput #filter placeholder="Filter microchips">
+        </mat-form-field>
       </div>
+      <mat-table #table *ngIf="!loading" [dataSource]="dataSource">
+        <ng-container cdkColumnDef="name">
+          <mat-header-cell *cdkHeaderCellDef> Name</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">
+            <a [routerLink]="['/dashboard', 'microchips', row._id]" class="text-link">{{row.name}}</a>
+          </mat-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="tasks">
+          <mat-header-cell *cdkHeaderCellDef> Tasks</mat-header-cell>
+          <mat-cell *cdkCellDef="let row"> {{row.tasks}}</mat-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="ip">
+          <mat-header-cell *cdkHeaderCellDef> IP</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">{{row.ip}}</mat-cell>
+        </ng-container>
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator #paginator
+                    [length]="dataLength"
+                    [pageIndex]="0"
+                    [pageSize]="5"
+                    [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+
+      <!-- Add task -->
       <div>
-        <!-- Table with microchips -->
-        <div class="filter-input-container">
-          <md-input-container floatPlaceholder="never">
-            <input mdInput #filter placeholder="Filter microchips">
-          </md-input-container>
-        </div>
-        <md-table #table *ngIf="!loading" [dataSource]="dataSource">
-          <ng-container cdkColumnDef="name">
-            <md-header-cell *cdkHeaderCellDef> Name </md-header-cell>
-            <md-cell *cdkCellDef="let row"><a href="#" class="table-link">{{row.name}}</a></md-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="tasks">
-            <md-header-cell *cdkHeaderCellDef> Tasks </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.tasks}} </md-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="ip">
-            <md-header-cell *cdkHeaderCellDef> IP </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.ip}}</md-cell>
-          </ng-container>
-          <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-          <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-        </md-table>
-        <md-paginator #paginator
-                      [length]="dataLength"
-                      [pageIndex]="0"
-                      [pageSize]="5"
-                      [pageSizeOptions]="[5, 10, 25, 100]">
-        </md-paginator>
+        <span fxFlex></span>
+        <a mat-raised-button color="primary" [routerLink]="['/dashboard', 'microchips', 'new']">Add microchip</a>
       </div>
-    </article>
-  </md-card-content>
-</md-card>
-
-
-<!--<article class="content items-list-page">-->
-  <!--<busy-loader [isActive]="loading" [big]="loading" [show]="loading" [color]="'#4bcf99'"></busy-loader>-->
-  <!--<div class="title-search-block" *ngIf="!loading">-->
-    <!--<div class="title-block">-->
-      <!--<div class="row">-->
-        <!--<div class="col-md-6">-->
-          <!--<h3 class="title"> Microchips-->
-            <!--<a [routerLink]="['/dashboard', 'microchips', 'new']" class="btn btn-primary btn-sm rounded-s">-->
-              <!--Add New-->
-            <!--</a>-->
-          <!--</h3>-->
-          <!--<p class="title-description"> List of microchips on this server </p>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="items-search">-->
-      <!--<form class="form-inline">-->
-        <!--<div class="input-group">-->
-          <!--<input type="text" class="form-control boxed rounded-s" placeholder="Search microchips">-->
-          <!--<span class="input-group-btn">-->
-            <!--<button class="btn btn-secondary rounded-s" type="button">-->
-              <!--<i class="fa fa-search"></i>-->
-            <!--</button>-->
-				  <!--</span>-->
-        <!--</div>-->
-      <!--</form>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!--<div class="card items" *ngIf="!loading">-->
-    <!--<ul class="item-list striped">-->
-      <!--<li class="item item-list-header hidden-sm-down">-->
-        <!--<div class="item-row">-->
-          <!--<div class="item-col fixed item-col-check"><label class="item-check" id="select-all-items">-->
-            <!--<input type="checkbox" class="checkbox">-->
-            <!--<span></span>-->
-          <!--</label></div>-->
-          <!--<div class="item-col item-col-header fixed item-col-img md">-->
-            <!--<div><span>Image</span></div>-->
-          <!--</div>-->
-          <!--<div class="item-col item-col-header item-col-title">-->
-            <!--<div><span>Name</span></div>-->
-          <!--</div>-->
-          <!--<div class="item-col item-col-header item-col-sales">-->
-            <!--<div><span>Tasks</span></div>-->
-          <!--</div>-->
-          <!--&lt;!&ndash;<div class="item-col item-col-header item-col-stats">&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="no-overflow"><span>Stats</span></div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--<div class="item-col item-col-header item-col-category">-->
-            <!--<div class="no-overflow"><span>IP</span></div>-->
-          <!--</div>-->
-          <!--<div class="item-col item-col-header item-col-author">-->
-            <!--<div class="no-overflow"><span>Owner</span></div>-->
-          <!--</div>-->
-          <!--<div class="item-col item-col-header item-col-date">-->
-            <!--<div><span>Added</span></div>-->
-          <!--</div>-->
-          <!--<div class="item-col item-col-header fixed item-col-actions-dropdown"></div>-->
-        <!--</div>-->
-      <!--</li>-->
-      <!--<li *ngFor="let microchip of microchips; let i = index" class="item">-->
-        <!--<div class="item-row">-->
-          <!--<div class="item-col fixed item-col-check"><label class="item-check">-->
-            <!--<input type="checkbox" class="checkbox">-->
-            <!--<span></span>-->
-          <!--</label></div>-->
-          <!--<div class="item-col fixed item-col-img md">-->
-            <!--<a [routerLink]="['/dashboard', 'microchips', microchip._id]">-->
-              <!--<div class="item-img rounded"-->
-                   <!--style="background-image: url(assets/img/placeholder.png)"></div>-->
-            <!--</a>-->
-          <!--</div>-->
-          <!--<div class="item-col fixed pull-left item-col-title">-->
-            <!--<div class="item-heading">Name</div>-->
-            <!--<div>-->
-              <!--<a [routerLink]="['/dashboard', 'microchips', microchip._id]">-->
-                <!--<h4 class="item-title"> {{ microchip?.name }} </h4>-->
-              <!--</a>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="item-col item-col-sales">-->
-            <!--<div class="item-heading">Tasks</div>-->
-            <!--<div>{{ microchip?.tasks }}</div>-->
-          <!--</div>-->
-          <!--&lt;!&ndash;<div class="item-col item-col-stats no-overflow">&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="item-heading">Stats</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="no-overflow">&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="item-stats sparkline" data-type="bar"></div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--<div class="item-col item-col-category no-overflow">-->
-            <!--<div class="item-heading">IP</div>-->
-            <!--<div class="no-overflow">{{ microchip?.ip }}</div>-->
-          <!--</div>-->
-          <!--<div class="item-col item-col-author">-->
-            <!--<div class="item-heading">Author</div>-->
-            <!--<div class="no-overflow"><a href="#">John Doe</a></div>-->
-          <!--</div>-->
-          <!--<div class="item-col item-col-date">-->
-            <!--<div class="item-heading">Published</div>-->
-            <!--<div class="no-overflow">21 SEP 10:45</div>-->
-          <!--</div>-->
-          <!--<div class="item-col fixed item-col-actions-dropdown">-->
-            <!--<div class="item-actions-dropdown">-->
-              <!--<a class="item-actions-toggle-btn"> <span class="inactive">-->
-									<!--<i class="fa fa-cog"></i>-->
-								<!--</span> <span class="active">-->
-								<!--<i class="fa fa-chevron-circle-right"></i>-->
-								<!--</span> </a>-->
-              <!--<div class="item-actions-block">-->
-                <!--<ul class="item-actions-list">-->
-                  <!--<li>-->
-                    <!--<a class="remove" data-toggle="modal" data-target="#confirm-modal"-->
-                       <!--(click)="onClickDeleteMicrochip(i)">-->
-                      <!--<i class="fa fa-trash-o"></i></a>-->
-                  <!--</li>-->
-                  <!--<li>-->
-                    <!--<a class="edit" href="item-editor.html"> <i class="fa fa-pencil"></i> </a>-->
-                  <!--</li>-->
-                <!--</ul>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</li>-->
-    <!--</ul>-->
-  <!--</div>-->
-  <!--<nav class="text-xs-right" *ngIf="!loading">-->
-    <!--<ul class="pagination">-->
-      <!--<li *ngFor="let page of pages" class="page-item active"><a class="page-link" href="">-->
-        <!--{{ page }}-->
-      <!--</a></li>-->
-    <!--</ul>-->
-  <!--</nav>-->
-<!--</article>-->
-
-
-<!--&lt;!&ndash;Delete modal&ndash;&gt;-->
-<!--<div class="modal fade" id="confirm-modal">-->
-  <!--<div class="modal-dialog" role="document">-->
-    <!--<div class="modal-content">-->
-      <!--<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-        <!--<span aria-hidden="true">&times;</span>-->
-      <!--</button>-->
-        <!--<h4 class="modal-title"><i class="fa fa-warning"></i> Alert</h4>-->
-      <!--</div>-->
-      <!--<div class="modal-body">-->
-        <!--<p>Are you sure want to do delete the microchip "{{microchip_to_delete?.name}}"?</p>-->
-      <!--</div>-->
-      <!--<div class="modal-footer">-->
-        <!--<button type="button" class="btn btn-danger" data-dismiss="modal"-->
-                <!--(click)="deleteMicrochip(microchip_to_delete)">Yes</button>-->
-        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
+    </div>
+  </app-card>
+</article>

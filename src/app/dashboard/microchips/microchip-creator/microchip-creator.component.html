@@ -1,39 +1,32 @@
-<article class="content item-editor-page">
-
-  <div class="title-block">
-    <h3 class="title">
-      <a [routerLink]="['/dashboard', 'microchips']"><i class="fa fa-chevron-left"></i></a>
-      New microchip
-      <span class="sparkline bar" data-type="bar"></span>
-    </h3>
-  </div>
-
-  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
-    <div class="card card-primary">
-      <div class="card-header">
-        <div class="header-block">
-          <p class="title">Microchip details</p>
-        </div>
-      </div>
-      <div class="card-block">
-        <div class="form-group">
-          <label class="control-label" for="microchip-name">Microchip name</label>
-          <input ngModel id="microchip-name" class="form-control" name="name" type="text" maxlength="60" required>
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="description">Description <span class="text-muted">(optional)</span></label>
-          <textarea ngModel id="description" name="description" class="form-control" rows="3" maxlength="120"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="ip">IP</label>
-          <input ngModel id="ip" class="form-control" name="ip" type="text" maxlength="60" required>
-        </div>
-      </div>
-
+<article [class.hidden]="loading" *ngIf="!loading">
+  <app-card [cardWidth]="33">
+    <div>
+      <h1 class="card-title">
+        <a class="text-link" (click)="back()">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i> New microchip
+        </a>
+      </h1>
     </div>
 
-    <div class="form-group pull-right">
-      <button type="submit" class="btn btn-primary" [disabled]="!form.valid || loading">Submit</button>
-    </div>
-  </form>
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <mat-form-field class="form-field">
+        <input matInput ngModel name="name" placeholder="Microchip name">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="form-field">
+        <!--<textarea matInput matTextareaAutosize="resizeToFitContent" ngModel placeholder="Description (optional)"></textarea>-->
+        <input matInput ngModel name="description" placeholder="Description (optional)">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="form-field">
+        <input matInput ngModel name="ip" placeholder="IP">
+      </mat-form-field>
+      <div>
+        <span fxFlex></span>
+        <button mat-raised-button color="primary" type="submit" class="btn btn-primary"
+                [disabled]="!form.valid || loading">Submit
+        </button>
+      </div>
+    </form>
+  </app-card>
 </article>

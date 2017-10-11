@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { DataSource } from '@angular/cdk';
-import { MdPaginator } from '@angular/material';
+import { DataSource } from '@angular/cdk/table';
+import { MatPaginator } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
@@ -19,8 +19,8 @@ import { Task } from '../../../shared/task';
 })
 export class TasksListComponent implements OnInit {
     @ViewChild('filter') filter: ElementRef;
-    @ViewChild(MdPaginator) paginator: MdPaginator;
-    displayedColumns = ['name', 'outputPort', 'microchip']; // TODO Add Owner
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    displayedColumns = ['name', 'outputPort', 'microchip']; // TODO Add Owner and active tasks
     database: TaskData;
     dataSource: TaskTableDataSource | null;
 
@@ -32,7 +32,6 @@ export class TasksListComponent implements OnInit {
     constructor(private apiService: ApiService) { }
 
     ngOnInit() {
-
         this.loading = true;
         let error = false;
         this.apiService.getTasks().subscribe(
@@ -86,7 +85,7 @@ class TaskTableDataSource extends DataSource<any> {
     set filter(filter: string) { this._filterChange.next(filter); }
     private _filterChange = new BehaviorSubject('');
 
-    constructor(private _taskData: TaskData, private _paginator: MdPaginator) {
+    constructor(private _taskData: TaskData, private _paginator: MatPaginator) {
         super();
     }
 

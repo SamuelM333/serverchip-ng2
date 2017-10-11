@@ -6,8 +6,8 @@ import { Microchip } from './microchip';
 import { Report } from './report';
 import { Task } from './task';
 
-export const apiUrl = 'https://serverchip-samuelm333.rhcloud.com/';
-// export const apiUrl = 'http://127.0.0.1:5000/';
+// export const apiUrl = 'https://serverchip-samuelm333.rhcloud.com/';
+export const apiUrl = 'http://192.168.1.123:5000/';
 
 @Injectable()
 export class ApiService {
@@ -16,13 +16,19 @@ export class ApiService {
     /* Microchips */
 
     getMicrochips() {
-        return this.http.get(apiUrl + 'microchip').map(
+        return this.http.get(apiUrl + 'microchip?embedded={"owner":1}').map(
             (response: Response) => response.json()
         );
     }
 
     getMicrochipByID(_id: string) {
         return this.http.get(apiUrl + 'microchip/' + _id + '?embedded={"owner":1}').map(
+            (response: Response) => response.json()
+        );
+    }
+
+    getAvailablePortsOfMicrochip(_id: string) {
+        return this.http.get(apiUrl + 'microchip/' + _id + '/ports').map(
             (response: Response) => response.json()
         );
     }
