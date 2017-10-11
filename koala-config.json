@@ -1,9 +1,0 @@
-{
-	"mappings": [],
-
-	"ignores": ["node_modules", "bower_components", "dist", "*.conf.js"],
-
-	"options": {},
-
-	"includePaths": []
-}
