@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 import { ApiService } from '../../../shared/api.service';
 import { Task } from '../../../shared/task';
-import { SocketIOService } from '../../../shared/socketio.service';
+// import { SocketIOService } from '../../../shared/socketio.service';
 
 @Component({
     selector: 'app-task-view',

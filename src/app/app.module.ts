@@ -7,14 +7,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
 import 'hammerjs';
 
-import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+// import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 
 import { MaterialModule } from './material.module';
 import { APP_ROUTING } from './app.routing';
 import { AppComponent } from './app.component';
 
 import { ApiService } from './shared/api.service';
-import { SocketIOService } from './shared/socketio.service';
+// import { SocketIOService } from './shared/socketio.service';
 import { BusyLoaderComponent } from './shared/busy-loader/busy-loader.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
@@ -31,7 +31,7 @@ import { TaskCreatorComponent, AddConditionDialogComponent } from './dashboard/t
 import { MicrochipCreatorComponent } from './dashboard/microchips/microchip-creator/microchip-creator.component';
 import { CardComponent } from './shared/card/card.component';
 
-const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
+// const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 
 @NgModule({
     imports: [
@@ -42,7 +42,7 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
-        SocketIoModule.forRoot(config),
+        // SocketIoModule.forRoot(config),
         APP_ROUTING
     ],
     declarations: [
@@ -76,7 +76,7 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
         { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
         ApiService,
         MaterialModule,
-        SocketIOService
+        // SocketIOService
     ],
     bootstrap: [AppComponent],
     schemas: [NO_ERRORS_SCHEMA]

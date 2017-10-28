@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Task } from '../../../shared/task';
 import { Microchip } from '../../../shared/microchip';
 import { ApiService } from '../../../shared/api.service';
-import { SocketIOService } from '../../../shared/socketio.service';
+// import { SocketIOService } from '../../../shared/socketio.service';
 
 @Component({
     selector: 'app-microchip-view',
@@ -28,7 +28,7 @@ export class MicrochipViewComponent implements OnInit, OnDestroy {
 
     constructor(private dialog: MatDialog,
                 private apiService: ApiService,
-                private socketIOService: SocketIOService,
+                // private socketIOService: SocketIOService,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private location: Location) {
@@ -44,16 +44,16 @@ export class MicrochipViewComponent implements OnInit, OnDestroy {
                     microchipData => this.tasks = microchipData._items
                 );
                 console.log(this.microchip.ip);
-                this.socketIOService.sendMessage('join_room', { user: 'samuel', microchip: this.microchip.ip });
-                this.socketIOService.getMessage('temperature_out')
-                    .subscribe(
-                        (tempData) => {
-                            console.log(tempData);
-                            if (tempData.ip === this.microchip.ip) {
-                                this.microchipTemp = tempData.temp;
-                            }
-                        }
-                    );
+                // this.socketIOService.sendMessage('join_room', { user: 'samuel', microchip: this.microchip.ip });
+                // this.socketIOService.getMessage('temperature_out')
+                //     .subscribe(
+                //         (tempData) => {
+                //             console.log(tempData);
+                //             if (tempData.ip === this.microchip.ip) {
+                //                 this.microchipTemp = tempData.temp;
+                //             }
+                //         }
+                //     );
             },
             err => console.log('Error:', err),
             () => { this.loading = false; }
@@ -61,8 +61,8 @@ export class MicrochipViewComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.socketIOService.removeAllListeners('temperature_out');
-        this.socketIOService.sendMessage('leave_room', { microchip: this.microchip.ip });
+        // this.socketIOService.removeAllListeners('temperature_out');
+        // this.socketIOService.sendMessage('leave_room', { microchip: this.microchip.ip });
     }
 
     back() {
