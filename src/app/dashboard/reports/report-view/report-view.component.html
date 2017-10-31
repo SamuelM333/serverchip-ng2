@@ -1,3 +1,66 @@
-<p>
-  report-view works!
-</p>
+<mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate" strokeWidth="3"></mat-progress-spinner>
+<article *ngIf="!loading">
+  <app-card [cardWidth]="33">
+    <div>
+      <!-- Card title -->
+      <h1 class="card-title">
+        <a class="text-link" (click)="back()">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i> Report for {{ report?.details.task.name }} at {{report?.created}}
+        </a>
+      </h1>
+      <span><b>Microchip: </b>{{ report?.microchip.name }}</span>
+      <div>
+        <p><b>Microchip IP: </b>{{ report?.microchip.ip }}</p>
+        <!--<p><b>Owner name: </b>{{ report?.microchip.owner.name | titlecase }} {{ microchip?.owner.last_name | titlecase }}</p>-->
+        <!--<p><b>Description: </b>{{ report?.microchip.description ? report?.microchip.description : 'Empty'}} </p>-->
+        <p><b>Code: </b>{{ report?.details.status.code}} </p>
+        <p><b>Reason: </b>{{ report?.details.status.reason}} </p>
+
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutGap="5px">
+            <span><b>Name: </b></span><span>{{report?.details.task.name}}</span>
+          </div>
+          <div fxLayout="row" fxLayoutGap="5px">
+            <span><b>Output port number: </b></span><span>{{report?.details.task.output_port.number}}</span>
+          </div>
+          <div fxLayout="row" fxLayoutGap="5px">
+            <span><b>Output port state: </b></span><span>{{report?.details.task.output_port.state}}</span>
+          </div>
+          <div fxLayout="row" fxLayoutGap="5px">
+            <span><b>Number of conditions: </b></span><span>{{report?.details.task.conditions.length}}</span>
+          </div>
+          <span><b>Conditions: </b></span>
+          <div fxLayout="column" fxLayoutGap="10px" class="sub-container">
+            <div></div>
+            <div *ngFor="let condition of report?.details.task.conditions">
+              <div *ngIf="condition.input_port">
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Condition type: </b></span><span>Input port</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Input port number: </b></span><span>{{condition.input_port.number}}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Input port state: </b></span><span>{{condition.input_port.state}}</span>
+                </div>
+              </div>
+              <div *ngIf="condition.day_hour">
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Condition type: </b></span><span>Day-hour</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Day: </b></span><span>{{condition.day_hour.day}}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Input port state: </b></span><span>{{report?.details.task.output_port.state}}</span>
+                </div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </app-card>
+</article>

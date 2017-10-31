@@ -13,7 +13,8 @@
         <div *ngIf="options.value.conditionType === 'InputPort'">
           <div fxLayout="column" fxLayoutAlign="center stretch">
             <mat-form-field floatPlaceholder="auto">
-              <mat-select id="input-port-select" formControlName="inputPortNumber">
+              <mat-select id="input-port-select" formControlName="inputPortNumber"
+                          (change)="inputPortChange($event.value)">
                 <mat-option *ngFor="let availablePort of availablePorts" [value]="availablePort">
                   {{ availablePort }}
                 </mat-option>
@@ -80,9 +81,9 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <div fxLayout="row">
+  <div fxFill fxLayout="row">
     <span fxFlex></span>
-    <button mat-raised-button color="primary" (click)="closeDialog()">Add</button>
+    <button mat-raised-button color="primary" (click)="closeDialog()" [disabled]="!options.valid">Add</button>
     <button mat-raised-button color="warn" [matDialogClose]="false">Cancel</button>
   </div>
 </mat-dialog-actions>

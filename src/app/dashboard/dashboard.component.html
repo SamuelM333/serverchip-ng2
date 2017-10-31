@@ -13,9 +13,9 @@
         <a mat-list-item (click)="sidenav.close()" [routerLink]="['/dashboard/reports']">
           <i class="fa fa-file-text-o fa-lg fa-fw"></i> Reports
         </a>
-        <a mat-list-item (click)="sidenav.close()" href="https://serverchip.github.io/docs/" target="_blank">
-          <i class="fa fa-book fa-lg fa-fw"></i> Documentation <i class="fa fa-external-link fa-fw"></i>
-        </a>
+        <!--<a mat-list-item (click)="sidenav.close()" href="https://serverchip.github.io/docs/" target="_blank">-->
+          <!--<i class="fa fa-book fa-lg fa-fw"></i> Documentation <i class="fa fa-external-link fa-fw"></i>-->
+        <!--</a>-->
       </mat-nav-list>
     </mat-sidenav>
     <mat-toolbar color="primary" class="mat-elevation-z10">
@@ -26,7 +26,7 @@
       <span>Serverchip</span>
       <span fxFlex></span>
 
-      <a>User</a>
+      <a>{{user.name | titlecase }} {{user.last_name | titlecase}}</a>
       <button mat-icon-button [matMenuTriggerFor]="themeMenu">
         <mat-icon>more_vert</mat-icon>
       </button>
@@ -39,6 +39,6 @@
   <mat-menu #themeMenu x-position="before">
     <button mat-menu-item>Settings</button>
     <button mat-menu-item (click)="isDarkTheme = !isDarkTheme">Toggle Theme</button>
-    <button mat-menu-item>Logout</button>
+    <button mat-menu-item (click)="logout()">Logout</button>
   </mat-menu>
 </div>

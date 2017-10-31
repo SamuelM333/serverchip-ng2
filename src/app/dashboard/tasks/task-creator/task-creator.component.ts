@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Inject } from '@angular/core';
-import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
@@ -18,8 +18,10 @@ export class TaskCreatorComponent implements OnInit {
     loading: boolean;
     microchips: Microchip[];
     selectedMicrochip: Microchip;
-    tabIndex = 0;
+    newTask: Task;
     availablePorts: number[];
+    portsForTask: number[];
+    portsForConditions: number[];
     conditions: Condition[];
     outputPort: number;
     firstFormGroup: FormGroup;
@@ -34,16 +36,19 @@ export class TaskCreatorComponent implements OnInit {
         this.loading = true;
         this.conditions = [];
         this.firstFormGroup = this._formBuilder.group({
-            firstCtrl: ['', Validators.required],
             selectedMicrochip: ['', Validators.required]
         });
+
         this.secondFormGroup = this._formBuilder.group({
-            secondCtrl: ['', Validators.required],
             taskName: ['', Validators.required],
-            outputPortNumber: [-1, Validators.required],
+            outputPortNumber: ['', Validators.required],
             inputPortState: [true, Validators.required],
-            taskDescription: ['']
+            taskDescription: [''],
+            conditions: this._formBuilder.group({
+                values: this._formBuilder.array([], Validators.minLength(1)) // TODO Here validators
+            }, { validator: this.checkConditions })
         });
+
         this.apiService.getMicrochips().subscribe(
             data => this.microchips = data._items,
             error => {},
@@ -51,26 +56,61 @@ export class TaskCreatorComponent implements OnInit {
         );
     }
 
+    private get usedPorts() {
+        const ports = [];
+        this.conditions.forEach(condition => {
+            if (condition instanceof InputPortCondition) {
+                ports.push(condition.input_port.number);
+            }
+        });
+        return ports;
+    }
+
+    private checkConditions(group: FormGroup): { emptyConditions: boolean } {
+        const array = group.controls['values']['controls'];
+        return array.length >= 1 ? null : { emptyConditions: true };
+    }
+
+    pushToConditionFormArray() {
+        const control: FormArray = <FormArray>this.secondFormGroup.controls.conditions['controls']['values'];
+        control.setValue([]);
+        this.conditions.forEach(condition => {
+            control.push(this._formBuilder.group({
+                condition: condition
+            }));
+        });
+    }
+
     selectMicrochip() {
         this.selectedMicrochip = this.firstFormGroup.value.selectedMicrochip;
         if (this.selectedMicrochip) {
-            console.log(this.selectedMicrochip);
             this.apiService.getAvailablePortsOfMicrochip(this.selectedMicrochip._id).subscribe(
                 (data) => {
                     this.availablePorts = data.available_ports;
-                    console.log(this.availablePorts);
-                    this.tabIndex = 1;
+                    this.portsForTask = this.availablePorts.map(x => x);
+                    this.portsForConditions = this.availablePorts.map(x => x);
                 }
             );
         }
     }
 
+
+    outputPortChange(outputPortSelected: number) {
+        this.portsForTask = this.availablePorts.filter(port => this.usedPorts.indexOf(port) === -1 ? true : false);
+        this.portsForConditions = this.availablePorts.filter(port => {
+            return (this.usedPorts.indexOf(port) === -1 && port !== outputPortSelected) ? true : false;
+        });
+
+    }
+
     removeCondition(index: number) {
         this.conditions.splice(index, 1);
+        this.outputPortChange(-1);
+        this.pushToConditionFormArray();
     }
 
     openDialog() {
-        const dialogRef = this.dialog.open(AddConditionDialogComponent, { data: this.availablePorts });
+        const dialogRef = this.dialog.open(AddConditionDialogComponent, { data: this.portsForConditions });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 if (result.conditionType === 'InputPort') {
@@ -78,68 +118,58 @@ export class TaskCreatorComponent implements OnInit {
                         number: result.inputPortNumber,
                         state: result.inputPortState
                     }));
+                    this.portsForTask = this.availablePorts.filter(port => {
+                        return (this.usedPorts.indexOf(port) === -1 && result.inputPortNumber !== port) ? true : false;
+                    });
+                    this.portsForConditions = this.availablePorts.filter(port => {
+                        return (this.usedPorts.indexOf(port) === -1 && port !== result.inputPortNumber) ? true : false;
+                    });
+
                 } else {
                     this.conditions.push(new DayHourCondition(result.name, 'DayHour', {
                         day: result.day,
                         hour: {
-                            start: `${result.startHour}:${result.startMinute}`,
-                            end: `${result.endHour}:${result.endMinute}`,
+                            start: `${'0'.concat(result.startHour).slice(-2)}:${'0'.concat(result.startMinute).slice(-2)}`,
+                            end: `${'0'.concat(result.endHour).slice(-2)}:${'0'.concat(result.endMinute).slice(-2)}`
                         }
                     }));
                 }
-            } else {
-                console.log('cancel');
+                this.pushToConditionFormArray();
+
             }
         });
     }
 
-    onSubmit(form: NgForm) {
-        //     this.loading = true;
-        //     let condition: Condition;
-        //     let task: Task;
-        //
-        //     if (form.value.type == 'day_hour') {
-        //         const days: string[] = [];
-        //         form.value.condition_day_monday == true ? days.push('Monday') : {};
-        //         form.value.condition_day_tuesday == true ? days.push('Tuesday') : {};
-        //         form.value.condition_day_wednesday == true ? days.push('Wednesday') : {};
-        //         form.value.condition_day_thursday == true ? days.push('Thursday') : {};
-        //         form.value.condition_day_friday == true ? days.push('Friday') : {};
-        //         form.value.condition_day_saturday == true ? days.push('Saturday') : {};
-        //         form.value.condition_day_sunday == true ? days.push('Sunday') : {};
-        //
-        //         condition = new Condition(
-        //             form.value.condition_name,
-        //             { days: days, hour: form.value.hour + ':' + form.value.minutes }
-        //         );
-        //         delete condition.input_port;
-        //
-        //     } else {
-        //         condition = new Condition(
-        //             form.value.condition_name,
-        //             null,
-        //             { number: form.value.input_port, state: form.value.input_port_state }
-        //         );
-        //         delete condition.day_hour;
-        //     }
-        //
-        //
-        //
-        //     task = new Task(
-        //         form.value.task_name,
-        //         form.value.microchip,
-        //         { number: form.value.output_port, state: form.value.output_port_state },
-        //         [condition]
-        //     );
-        //
-        //     this.apiService.insertTask(task).subscribe(
-        //         data => this.router.navigateByUrl('/dashboard/tasks/' + data._id),
-        //         error => console.log('Error', error),
-        //         () => this.loading = false
-        //
-        //     );
-        //
-        //     console.log(task);
+    getDataFromForm() {
+        const control = <FormArray>this.secondFormGroup.controls.conditions['controls']['values'];
+        console.log(control);
+        this.newTask = new Task(
+            this.secondFormGroup.value.taskName,
+            this.selectedMicrochip,
+            {
+                number: this.secondFormGroup.value.outputPortNumber,
+                state: this.secondFormGroup.value.inputPortState
+            },
+            this.conditions,
+            this.secondFormGroup.value.taskDescription
+        );
+        console.log(this.newTask);
+    }
+
+    onSubmit() {
+        delete this.newTask._id;
+        delete this.newTask._etag;
+        for (const condition of this.newTask.conditions) {
+            delete condition.conditionType;
+        }
+
+        console.log(this.newTask);
+
+        this.apiService.insertTask(this.newTask).subscribe(
+            data => this.router.navigateByUrl('/dashboard/tasks/' + data._id),
+            error => console.log('Error', error),
+            () => this.loading = false
+        );
     }
 
 }
@@ -161,15 +191,15 @@ export class AddConditionDialogComponent {
         'Saturday',
         'Sunday'
     ];
-    HOURS = Array.from({ length: 24 }, (v, k) => k);
-    MINUTES = Array.from({ length: 60 }, (v, k) => k);
+    HOURS = Array.from({ length: 24 }, (v, k) => `0${k}`.slice(-2));
+    MINUTES = Array.from({ length: 60 }, (v, k) => `0${k}`.slice(-2));
 
     constructor(public dialogRef: MatDialogRef<AddConditionDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public availablePorts: any,
                 formBuilder: FormBuilder) {
         this.options = formBuilder.group({
-            conditionType: 'InputPort',
-            name: '',
+            conditionType: ['InputPort', Validators.required],
+            name: ['', Validators.required],
             inputPortNumber: '-1',
             inputPortState: true,
             daySelect: '',
@@ -177,24 +207,39 @@ export class AddConditionDialogComponent {
             startMinuteSelect: -1,
             endHourSelect: -1,
             endMinuteSelect: -1
-        });
+        }, { validator: this.validateCondition });
     }
 
-    private validateDayHourCondition(startHour: number, startMinute: number, endHour: number, endMinute: number) {
-        // TODO Optimize
-        if (endHour >= startHour) {
-            if (endHour > startHour) {
-                return true;
-            } else {
-                if (endMinute > startMinute) {
-                    return true;
+    private validateCondition(group: FormGroup): { validCondition: boolean } {
+        if (group.value.conditionType === 'InputPort') {
+            // Validate inputPort
+            return group.value.inputPortNumber > -1 ? null : { validCondition: false };
+        } else {
+            // Validate day_hour
+            const startHour = Number(group.value.startHourSelect);
+            const startMinute = Number(group.value.startMinuteSelect);
+            const endHour = Number(group.value.endHourSelect);
+            const endMinute = Number(group.value.endMinuteSelect);
+
+            if (endHour >= startHour) {
+                if (endHour > startHour) {
+                    return null;
+                } else {
+                    if (endMinute > startMinute) {
+                        return null;
+                    }
                 }
             }
+            return { validCondition: false };
         }
-        return false;
+    }
+
+    inputPortChange(portSelected: number) {
+        // console.log(portSelected);
     }
 
     closeDialog() {
+        console.log(this.options.valid);
         if (this.options.value.conditionType === 'InputPort') {
             const condition = {
                 conditionType: this.options.value.conditionType,
@@ -205,21 +250,16 @@ export class AddConditionDialogComponent {
             this.dialogRef.close(condition);
 
         } else {
-            if (this.validateDayHourCondition(this.options.value.startHourSelect, this.options.value.startMinuteSelect,
-                    this.options.value.endHourSelect, this.options.value.endMinuteSelect)) {
-                const condition = {
-                    conditionType: this.options.value.conditionType,
-                    name: this.options.value.name,
-                    day: this.options.value.daySelect,
-                    startHour: this.options.value.startHourSelect,
-                    startMinute: this.options.value.startMinuteSelect,
-                    endHour: this.options.value.endHourSelect,
-                    endMinute: this.options.value.endMinuteSelect
-                };
-                this.dialogRef.close(condition);
-            } else {
-                this.dialogRef.close(false); // TODO Emit error here
-            }
+            const condition = {
+                conditionType: this.options.value.conditionType,
+                name: this.options.value.name,
+                day: this.options.value.daySelect,
+                startHour: this.options.value.startHourSelect,
+                startMinute: this.options.value.startMinuteSelect,
+                endHour: this.options.value.endHourSelect,
+                endMinute: this.options.value.endMinuteSelect
+            };
+            this.dialogRef.close(condition);
         }
     }
 }

@@ -8,6 +8,7 @@ import { ReportViewComponent } from './reports/report-view/report-view.component
 import { MicrochipsListComponent } from './microchips/microchips-list/microchips-list.component';
 import { MicrochipViewComponent } from './microchips/microchip-view/microchip-view.component';
 import { MicrochipCreatorComponent } from './microchips/microchip-creator/microchip-creator.component';
+import { MicrochipEditorComponent } from './microchips/microchip-editor/microchip-editor.component';
 
 export const DASHBOARD_ROUTES: Routes = [
     { path: 'tasks', component: TasksListComponent },
@@ -18,6 +19,6 @@ export const DASHBOARD_ROUTES: Routes = [
     { path: 'reports/:id', component: ReportViewComponent },
     { path: 'microchips', component: MicrochipsListComponent },
     { path: 'microchips/new', component: MicrochipCreatorComponent },
-    { path: 'microchips/edit/:id', component: MicrochipCreatorComponent },
+    { path: 'microchips/edit/:id', component: MicrochipEditorComponent },
     { path: 'microchips/:id', component: MicrochipViewComponent },
 ];

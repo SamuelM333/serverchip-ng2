@@ -32,8 +32,8 @@
 
         <!-- Card actions -->
         <div>
-          <span fxFlex></span>
           <div fxLayout="row" fxLayoutGap="10px">
+            <span fxFlex></span>
             <button mat-raised-button color="warn" (click)="openDialog()">Delete</button>
             <a mat-raised-button color="primary" [routerLink]="['/dashboard', 'tasks', 'edit', task?._id]">
               Edit

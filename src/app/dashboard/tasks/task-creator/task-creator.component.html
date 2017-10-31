@@ -1,7 +1,7 @@
 <article [class.hidden]="loading" *ngIf="!loading">
   <app-card [cardWidth]="70">
     <!--<mat-tab-group dynamicHeight="true" [selectedIndex]="tabIndex" (selectChange)="tabIndex = $event.index">-->
-    <mat-horizontal-stepper linear="false">
+    <mat-horizontal-stepper linear>
       <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup" fxFlex>
           <ng-template matStepLabel>Select a microchip</ng-template>
@@ -23,7 +23,7 @@
           </mat-grid-list>
           <div fxLayout="row">
             <span fxFlex></span>
-            <button mat-raised-button color="primary" [disabled]="!selectedMicrochip" matStepperNext>Next</button>
+            <button mat-raised-button color="primary" [disabled]="!firstFormGroup.valid" matStepperNext>Next</button>
           </div>
         </form>
       </mat-step>
@@ -42,12 +42,13 @@
                               maxlength="120"></textarea>
                   </mat-form-field>
                   <mat-form-field floatPlaceholder="auto" class="full-form-field">
-                    <mat-select id="output-port-select" required="true" formControlName="outputPortNumber">
-                      <mat-option *ngFor="let availablePort of availablePorts" [value]="availablePort">
-                        {{ availablePort }}
+                    <mat-select id="output-port-select" formControlName="outputPortNumber"
+                                (change)="outputPortChange($event.value)">
+                      <mat-option *ngFor="let port of portsForTask" [value]="port">
+                        {{ port }}
                       </mat-option>
                     </mat-select>
-                    <mat-placeholder>Output port number</mat-placeholder>
+                    <mat-placeholder>Output port number *</mat-placeholder>
                   </mat-form-field>
                   <div fxLayout="row" class="sub-container">
                     <label>State: </label>
@@ -86,18 +87,64 @@
           </mat-grid-tile>
         </mat-grid-list>
         <div fxLayout="row">
-          <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+          <button mat-raised-button matStepperPrevious color="primary">Back</button>
           <span fxFlex></span>
-          <button mat-raised-button color="primary" matStepperNext>Next</button>
+          <button mat-raised-button matStepperNext color="primary"
+                  (click)="getDataFromForm()" [disabled]="!secondFormGroup.valid">
+            Next
+          </button>
         </div>
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>Summary</ng-template>
-        Summary
+        <div fxLayout="column" *ngIf="newTask">
+          <div fxLayout="row" fxLayoutGap="5px">
+            <span><b>Name: </b></span><span>{{newTask.name}}</span>
+          </div>
+          <div fxLayout="row" fxLayoutGap="5px">
+            <span><b>Output port number: </b></span><span>{{newTask.output_port.number}}</span>
+          </div>
+          <div fxLayout="row" fxLayoutGap="5px">
+            <span><b>Output port state: </b></span><span>{{newTask.output_port.state}}</span>
+          </div>
+          <div fxLayout="row" fxLayoutGap="5px">
+            <span><b>Number of conditions: </b></span><span>{{newTask.conditions.length}}</span>
+          </div>
+          <span><b>Conditions: </b></span>
+          <div fxLayout="column" fxLayoutGap="10px" class="sub-container">
+            <div></div>
+            <div *ngFor="let condition of newTask.conditions">
+
+              <div *ngIf="condition.conditionType === 'InputPort'">
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Condition type: </b></span><span>Input port</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Input port number: </b></span><span>{{condition.input_port.number}}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Input port state: </b></span><span>{{condition.input_port.state}}</span>
+                </div>
+              </div>
+              <div *ngIf="condition.conditionType === 'DayHour'">
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Condition type: </b></span><span>Day-hour</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Day: </b></span><span>{{condition.day_hour.day}}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                  <span><b>Input port state: </b></span><span>{{newTask.output_port.state}}</span>
+                </div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
         <div fxLayout="row">
           <button mat-raised-button color="primary" matStepperPrevious>Back</button>
           <span fxFlex></span>
-          <button mat-raised-button color="primary" matStepperNext>
+          <button mat-raised-button color="primary" (click)="onSubmit()">
             Submit
             <mat-icon>send</mat-icon>
           </button>
