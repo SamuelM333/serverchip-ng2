@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ApiService } from '../../../shared/api.service';
 import { User } from '../../../shared/user';
@@ -9,21 +9,43 @@ import { Microchip } from '../../../shared/microchip';
 
 
 @Component({
-    selector: 'app-microchip-creator',
-    templateUrl: './microchip-creator.component.html',
+    selector: 'app-microchip-editor',
+    templateUrl: './microchip-editor.component.html',
+    styles: [`
+        .form-field {
+            width: 500px;
+            margin-left: 0;
+        }
+    `]
 })
-export class MicrochipCreatorComponent implements OnInit {
+export class MicrochipEditorComponent implements OnInit {
 
     loading = false;
     user: User;
+    microchip: Microchip;
+    _id: string;
 
-    constructor(private router: Router, private apiService: ApiService, private location: Location) {
+    constructor(private apiService: ApiService,
+                // private socketIOService: SocketIOService,
+                private router: Router,
+                private activatedRoute: ActivatedRoute,
+                private location: Location) {
+        this._id = activatedRoute.snapshot.params['id'];
         this.user = JSON.parse(localStorage.getItem('user'));
+
     }
 
     ngOnInit() {
         this.apiService.getUser('58892f662589503db4700db3').subscribe(
             (data) => this.user = data
+        );
+
+        this.apiService.getMicrochipByID(this._id).subscribe(
+            data => {
+                this.microchip = data;
+            },
+            err => console.log('Error:', err),
+            () => { this.loading = false; }
         );
     }
 

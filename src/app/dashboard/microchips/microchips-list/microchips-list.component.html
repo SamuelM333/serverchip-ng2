@@ -31,14 +31,14 @@
         <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
       <mat-paginator #paginator
-                    [length]="dataLength"
-                    [pageIndex]="0"
-                    [pageSize]="5"
-                    [pageSizeOptions]="[5, 10, 25, 100]">
+                     [length]="dataLength"
+                     [pageIndex]="0"
+                     [pageSize]="5"
+                     [pageSizeOptions]="[5, 10, 25, 100]">
       </mat-paginator>
 
-      <!-- Add task -->
-      <div>
+      <!-- Add microchip btn -->
+      <div fxLayout="row">
         <span fxFlex></span>
         <a mat-raised-button color="primary" [routerLink]="['/dashboard', 'microchips', 'new']">Add microchip</a>
       </div>

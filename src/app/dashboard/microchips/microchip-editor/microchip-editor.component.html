@@ -3,10 +3,10 @@
     <div>
       <h1 class="card-title">
         <a class="text-link" (click)="back()">
-          <i class="fa fa-chevron-left" aria-hidden="true"></i> New microchip
+          <i class="fa fa-chevron-left" aria-hidden="true"></i> Edit microchip
         </a>
       </h1>
     </div>
-    <app-microchip-form [user]="user"></app-microchip-form>
+    <app-microchip-form [user]="user" [editMicrochip]="microchip"></app-microchip-form>
   </app-card>
 </article>

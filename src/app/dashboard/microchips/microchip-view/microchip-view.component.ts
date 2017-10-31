@@ -43,17 +43,17 @@ export class MicrochipViewComponent implements OnInit, OnDestroy {
                 this.apiService.getTaskByMicrochipID(this.microchip._id).subscribe(
                     microchipData => this.tasks = microchipData._items
                 );
-                console.log(this.microchip.ip);
+                // console.log(this.microchip);
                 // this.socketIOService.sendMessage('join_room', { user: 'samuel', microchip: this.microchip.ip });
-                // this.socketIOService.getMessage('temperature_out')
-                //     .subscribe(
-                //         (tempData) => {
-                //             console.log(tempData);
-                //             if (tempData.ip === this.microchip.ip) {
-                //                 this.microchipTemp = tempData.temp;
-                //             }
-                //         }
-                //     );
+                /*this.socketIOService.getMessage('temperature_out')
+                    .subscribe(
+                        (tempData) => {
+                            console.log(tempData);
+                            if (tempData.ip === this.microchip.ip) {
+                                this.microchipTemp = tempData.temp;
+                            }
+                        }
+                    );*/
             },
             err => console.log('Error:', err),
             () => { this.loading = false; }

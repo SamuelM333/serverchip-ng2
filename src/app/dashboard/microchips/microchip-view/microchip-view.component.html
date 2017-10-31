@@ -11,7 +11,8 @@
       <span>{{ microchip?.description }}</span>
       <div>
         <p><b>Microchip IP: </b>{{ microchip?.ip }}</p>
-        <p><b>Owner name: </b>{{ microchip?.owner.name }} {{ microchip?.owner.last_name }}</p>
+        <p><b>Owner name: </b>{{ microchip?.owner.name | titlecase }} {{ microchip?.owner.last_name | titlecase }}</p>
+        <p><b>Description: </b>{{ microchip?.description ? microchip?.description : 'Empty'}} </p>
         <p><b>Tasks:</b> <span *ngIf="tasks.length === 0"> None</span></p>
         <div *ngIf="tasks.length > 0" class="sub-item">
           <ul>
@@ -20,11 +21,11 @@
             </li>
           </ul>
         </div>
-        <p><b>Temperature: </b><span [class.warn]="warning">{{ microchipTemp }}</span></p>
+        <!--<p><b>Temperature: </b><span [class.warn]="warning">{{ microchipTemp }}</span></p>-->
         <!-- Card actions -->
         <div>
-          <span fxFlex></span>
           <div fxLayout="row" fxLayoutGap="10px">
+            <span fxFlex></span>
             <button mat-raised-button color="warn" (click)="openDialog()">Delete</button>
             <a mat-raised-button color="primary" [routerLink]="['/dashboard', 'microchips', 'edit', microchip?._id]">
               Edit

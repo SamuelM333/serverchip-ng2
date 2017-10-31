@@ -1,0 +1,22 @@
+<form [formGroup]="formGroup">
+  <mat-form-field class="form-field">
+    <input matInput formControlName="name" name="name" placeholder="Microchip name">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="form-field">
+      <textarea matInput formControlName="description" name="description" placeholder="Description (optional)" rows="3"
+                maxlength="120">
+      </textarea>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="form-field">
+    <input matInput formControlName="ip" name="ip" placeholder="IP">
+  </mat-form-field>
+  <div fxLayout="row">
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" class="btn btn-primary" (click)="onSubmit()" [disabled]="!formGroup.valid">
+      Submit
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</form>
