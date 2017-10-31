@@ -45,14 +45,16 @@ export class MicrochipFormComponent implements OnChanges {
         // TODO Check for unique IP
         const microchip = new Microchip(
             this.formGroup.value.name,
-            this.user,
+            this.user._id,
             this.formGroup.value.ip,
-            this.formGroup.value.description ? this.formGroup.value.description : '',
-            this.editMicrochip._id,
-            this.editMicrochip._etag
+            this.formGroup.value.description ? this.formGroup.value.description : ''
         );
 
         if (this.editMicrochip) {
+
+            microchip._id = this.editMicrochip._id;
+            microchip._etag = this.editMicrochip._etag;
+
             this.apiService.updateMicrochip(this.editMicrochip._id, microchip).subscribe(
                 data => this.router.navigateByUrl('/dashboard/microchips/' + data._id),
                 error => console.log('Error', error)

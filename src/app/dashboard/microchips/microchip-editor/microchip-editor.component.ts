@@ -31,14 +31,11 @@ export class MicrochipEditorComponent implements OnInit {
                 private activatedRoute: ActivatedRoute,
                 private location: Location) {
         this._id = activatedRoute.snapshot.params['id'];
-        this.user = JSON.parse(localStorage.getItem('user'));
-
     }
 
     ngOnInit() {
-        this.apiService.getUser('58892f662589503db4700db3').subscribe(
-            (data) => this.user = data
-        );
+        this.user = JSON.parse(localStorage.getItem('authUser'));
+        console.log(this.user);
 
         this.apiService.getMicrochipByID(this._id).subscribe(
             data => {
