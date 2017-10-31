@@ -15,12 +15,10 @@ import { AppComponent } from './app.component';
 
 import { ApiService } from './shared/api.service';
 // import { SocketIOService } from './shared/socketio.service';
-import { BusyLoaderComponent } from './shared/busy-loader/busy-loader.component';
+// import { BusyLoaderComponent } from './shared/busy-loader/busy-loader.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { SidebarComponent } from './dashboard/shared/sidebar/sidebar.component';
-import { FooterComponent } from './dashboard/shared/footer/footer.component';
 import { TasksListComponent } from './dashboard/tasks/tasks-list/tasks-list.component';
 import { ReportsListComponent } from './dashboard/reports/reports-list/reports-list.component';
 import { MicrochipsListComponent } from './dashboard/microchips/microchips-list/microchips-list.component';
@@ -29,7 +27,10 @@ import { MicrochipViewComponent, DeleteMicrochipDialogComponent } from './dashbo
 import { ReportViewComponent } from './dashboard/reports/report-view/report-view.component';
 import { TaskCreatorComponent, AddConditionDialogComponent } from './dashboard/tasks/task-creator/task-creator.component';
 import { MicrochipCreatorComponent } from './dashboard/microchips/microchip-creator/microchip-creator.component';
+import { MicrochipEditorComponent } from './dashboard/microchips/microchip-editor/microchip-editor.component';
+import { MicrochipFormComponent } from './dashboard/microchips/microchip-form/microchip-form.component';
 import { CardComponent } from './shared/card/card.component';
+// import { AuthComponent } from './auth/auth.component';
 
 // const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 
@@ -51,10 +52,7 @@ import { CardComponent } from './shared/card/card.component';
         AddConditionDialogComponent,
         DeleteTaskDialogComponent,
         DeleteMicrochipDialogComponent,
-        BusyLoaderComponent,
         CardComponent,
-        SidebarComponent,
-        FooterComponent,
         LoginComponent,
         SignupComponent,
         DashboardComponent,
@@ -62,10 +60,13 @@ import { CardComponent } from './shared/card/card.component';
         TaskViewComponent,
         MicrochipsListComponent,
         MicrochipViewComponent,
+        MicrochipFormComponent,
+        MicrochipEditorComponent,
         ReportsListComponent,
         ReportViewComponent,
         TaskCreatorComponent,
-        MicrochipCreatorComponent
+        MicrochipCreatorComponent,
+        // AuthComponent
     ],
     entryComponents: [
         AddConditionDialogComponent,

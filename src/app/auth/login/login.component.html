@@ -1,45 +1,48 @@
-<div class="auth">
-  <div class="auth-container">
-    <div class="card">
-      <header class="auth-header">
-        <h1 class="auth-title">
-          <div class="logo"><span class="l l1"></span> <span class="l l2"></span> <span class="l l3"></span> <span
-            class="l l4"></span> <span class="l l5"></span></div>
-          ModularAdmin
-        </h1>
-      </header>
-      <div class="auth-content">
-        <p class="text-xs-center">LOGIN TO CONTINUE</p>
-        <form id="login-form" action="/index.html" method="GET" novalidate="">
-          <div class="form-group"><label for="username">Username</label>
-            <input type="email"
-                   class="form-control underlined"
-                   name="username" id="username"
-                   placeholder="Your email address"
-                   required></div>
-          <div class="form-group"><label for="password">Password</label>
-            <input type="password"
-                   class="form-control underlined"
-                   name="password" id="password"
-                   placeholder="Your password" required>
-          </div>
-          <div class="form-group"><label for="remember">
-            <input class="checkbox" id="remember" type="checkbox">
-            <span>Remember me</span>
-          </label> <a href="reset.html" class="forgot-btn pull-right">Forgot password?</a></div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-block btn-primary">Login</button>
-          </div>
-          <div class="form-group">
-            <p class="text-muted text-xs-center">Do not have an account? <a [routerLink]="['/sign-up']">Sign Up!</a></p>
+<div id="auth-container" fxFill fxLayout="column">
+  <div fxFlex="30"></div>
+  <div fxFlex="36">
+    <app-card [cardWidth]="25">
+      <md-card-header>
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+          <mat-icon fxFlex>lock</mat-icon>
+          <mat-card-title fxFlex>Login on Serverchip</mat-card-title>
+        </div>
+      </md-card-header>
+      <mat-card-content>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+          <div fxLayout="column" fxFill>
+            <mat-form-field floatPlaceholder="auto" fxFill>
+              <input matInput name="email" formControlName="email" type="email" placeholder="Email">
+            </mat-form-field>
+            <mat-form-field floatPlaceholder="auto" fxFill>
+              <input matInput name="password" formControlName="password" type="password" placeholder="Password">
+            </mat-form-field>
+            <div fxLayout="column" fxLayoutGap="10px" id="form-errors">
+              <span *ngIf=""></span>
+            </div>
+            <div fxLayout="column" fxLayoutGap="10px">
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <!--<mat-checkbox fxFlex color="primary" formControlName="remember">Remember me</mat-checkbox>-->
+                <span fxFlex></span>
+                <button fxFlex mat-raised-button color="primary" type="submit"
+                        [disabled]="formGroup.invalid">Login
+                </button>
+              </div>
+              <mat-card-footer>
+                <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center stretch">
+                  <span fxFlex="33" id="reset-password"><a [routerLink]="['/']">Forgot your password?</a></span>
+                  <div fxFlex="30px" fxLayout="column" id="footer-link">
+                    <span fxFlex="33"></span>
+                    <a fxFlex="33" [routerLink]="['/sign-up']">Create an account</a>
+                    <span fxFlex="33"></span>
+                  </div>
+                </div>
+              </mat-card-footer>
+            </div>
           </div>
         </form>
-      </div>
-    </div>
-    <div class="text-xs-center">
-      <a [routerLink]="['/dashboard']" class="btn btn-secondary rounded btn-sm">
-        <i class="fa fa-arrow-left"></i> Back to dashboard
-      </a>
-    </div>
+      </mat-card-content>
+    </app-card>
   </div>
+  <div fxFlex="33"></div>
 </div>

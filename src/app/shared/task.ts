@@ -16,7 +16,7 @@ export class Task {
 
 
     constructor(name: string, microchip: Microchip, output_port: { number: number; state: boolean },
-                conditions: Condition[], _id?: string, _etag?: string, description?: string) {
+                conditions: Condition[], description?: string, _id?: string, _etag?: string, ) {
         this._id = _id;
         this._etag = _etag;
         this.name = name;

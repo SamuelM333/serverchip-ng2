@@ -13,6 +13,43 @@ export const apiUrl = 'http://192.168.1.123:5000/';
 export class ApiService {
     constructor(private http: Http) { }
 
+    /* User */
+
+    getUser(lookup: string) {
+        return this.http.get(apiUrl + 'user/' + lookup).map(
+            (response: Response) => response.json()
+        );
+    }
+
+    insertUser(newUser: any) {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+
+        return this.http.post(apiUrl + 'user/', JSON.stringify(newUser), { headers: headers }).map(
+            (response: Response) => response.json()
+        );
+    }
+
+    updateUser(_id: string, user: User) {
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            'If-Match': user._etag
+        });
+
+        return this.http.put(apiUrl + 'user/' + _id, JSON.stringify(user), { headers: headers }).map(
+            (response: Response) => response.json()
+        );
+    }
+
+    deleteUser(_id: string, user: User) {
+        const headers = new Headers({
+            'If-Match': user._etag
+        });
+
+        return this.http.delete(apiUrl + 'user/' + _id, { headers: headers }).map(
+            (response: Response) => response.json()
+        );
+    }
+
     /* Microchips */
 
     getMicrochips() {
@@ -41,11 +78,16 @@ export class ApiService {
         );
     }
 
-    updateMicrochip(_id: string, microchip: Microchip) {
+    updateMicrochip(_id: string, microchip) {
+        console.log(microchip._etag);
         const headers = new Headers({
             'Content-Type': 'application/json',
             'If-Match': microchip._etag
         });
+        delete microchip._etag;
+        microchip.owner = microchip.owner._id;
+
+        console.log(microchip);
 
         return this.http.put(apiUrl + 'microchip/' + _id, JSON.stringify(microchip), { headers: headers }).map(
             (response: Response) => response.json()
@@ -82,9 +124,9 @@ export class ApiService {
         );
     }
 
-    insertTask(task: Task) {
+    insertTask(task) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-
+        task.microchip = task.microchip._id;
         return this.http.post(apiUrl + 'task', JSON.stringify(task), { headers: headers }).map(
             (response: Response) => response.json()
         );
@@ -114,13 +156,13 @@ export class ApiService {
     /* Reports */
 
     getReports() {
-        return this.http.get(apiUrl + 'report').map(
+        return this.http.get(apiUrl + 'report?embedded={"microchip":1,"details.task":1}').map(
             (response: Response) => response.json()
         );
     }
 
     getReportByID(_id: string) {
-        return this.http.get(apiUrl + 'report/' + _id).map(
+        return this.http.get(apiUrl + 'report/' + _id + '?embedded={"microchip":1,"details.task":1}').map(
             (response: Response) => response.json()
         );
     }
@@ -133,40 +175,4 @@ export class ApiService {
         );
     }
 
-    /* User */
-
-    getUser(lookup: string) {
-        return this.http.get(apiUrl + 'user/' + lookup).map(
-            (response: Response) => response.json()
-        );
-    }
-
-    insertUser(user: User) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-
-        return this.http.post(apiUrl + '/snippet', JSON.stringify(user), { headers: headers }).map(
-            (response: Response) => response.json()
-        );
-    }
-
-    updateUser(_id: string, user: User) {
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-            'If-Match': user._etag
-        });
-
-        return this.http.put(apiUrl + 'microchip/' + _id, JSON.stringify(user), { headers: headers }).map(
-            (response: Response) => response.json()
-        );
-    }
-
-    deleteUser(_id: string, user: User) {
-        const headers = new Headers({
-            'If-Match': user._etag
-        });
-
-        return this.http.delete(apiUrl + 'microchip/' + _id, { headers: headers }).map(
-            (response: Response) => response.json()
-        );
-    }
 }

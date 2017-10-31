@@ -4,11 +4,8 @@ import { Component, Input } from '@angular/core';
     selector: 'app-card',
     template: `
         <mat-card class="main-card" [style.width.%]="cardWidth">
-            <mat-card-content>
-                <div>
-                    <ng-content></ng-content>
-                </div>
-            </mat-card-content>
+            <mat-card-title>{{cardTitle}}</mat-card-title>
+            <ng-content></ng-content>
         </mat-card>
     `,
     styles: [`
@@ -20,5 +17,6 @@ import { Component, Input } from '@angular/core';
 })
 
 export class CardComponent {
+    @Input() cardTitle = '';
     @Input() cardWidth = 33;
 }

@@ -23,7 +23,8 @@ import {
     MatPaginatorModule,
     MatSelectModule,
     MatSortModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSnackBarModule
 } from '@angular/material';
 
 const modules = [
@@ -38,6 +39,7 @@ const modules = [
     MatRadioModule,
     MatToolbarModule,
     MatTabsModule,
+    MatSnackBarModule,
     MatTooltipModule,
     MatListModule,
     MatProgressBarModule,

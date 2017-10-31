@@ -1,4 +1,4 @@
-import { Routes, RouterModule } from  '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { DASHBOARD_ROUTES } from './dashboard/dashboard.routes';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -7,8 +7,10 @@ import { SignupComponent } from './auth/signup/signup.component';
 
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/dashboard/tasks', pathMatch: 'full' },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'dashboard', redirectTo: '/dashboard/tasks', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent },
+    { path: 'sign-up', component: SignupComponent },
     { path: 'dashboard', component: DashboardComponent, children: DASHBOARD_ROUTES },
     { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: SignupComponent }
