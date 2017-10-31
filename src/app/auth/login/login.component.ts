@@ -34,15 +34,8 @@ export class LoginComponent implements OnInit {
             this.apiSerivice.getUser(this.formGroup.value.email).subscribe(
                 (user) => {
                     if (compareSync(this.formGroup.value.password, user.password)) {
-                        const authUser = {
-                            'id': user._id,
-                            'name': user.name,
-                            'last_name': user.last_name,
-                            'email': user.email,
-                            'password': user.password
-                        };
                         // if (this.formGroup.value.remember) {
-                            localStorage.setItem('authUser', JSON.stringify(authUser));
+                            localStorage.setItem('authUser', JSON.stringify(user));
                         // }
                         this.router.navigateByUrl('/dashboard');
                     } else {

@@ -50,7 +50,7 @@ export class SignupComponent implements OnInit {
             this.apiSerivice.insertUser(authUser).subscribe(
                 (user) => {
                     console.log(user);
-                    localStorage.setItem('authUser', JSON.stringify(authUser));
+                    localStorage.setItem('authUser', JSON.stringify(user));
                     this.router.navigateByUrl('/dashboard');
                 },
                 (err) => {
