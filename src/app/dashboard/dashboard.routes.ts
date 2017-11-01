@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { TasksListComponent } from './tasks/tasks-list/tasks-list.component';
 import { TaskViewComponent } from './tasks/task-view/task-view.component';
 import { TaskCreatorComponent } from './tasks/task-creator/task-creator.component';
+import { TaskEditorComponent } from './tasks/task-editor/task-editor.component';
 import { ReportsListComponent } from './reports/reports-list/reports-list.component';
 import { ReportViewComponent } from './reports/report-view/report-view.component';
 import { MicrochipsListComponent } from './microchips/microchips-list/microchips-list.component';
@@ -13,7 +14,7 @@ import { MicrochipEditorComponent } from './microchips/microchip-editor/microchi
 export const DASHBOARD_ROUTES: Routes = [
     { path: 'tasks', component: TasksListComponent },
     { path: 'tasks/new', component: TaskCreatorComponent },
-    { path: 'tasks/edit/:id', component: TaskCreatorComponent },
+    { path: 'tasks/edit/:id', component: TaskEditorComponent },
     { path: 'tasks/:id', component: TaskViewComponent },
     { path: 'reports', component: ReportsListComponent },
     { path: 'reports/:id', component: ReportViewComponent },

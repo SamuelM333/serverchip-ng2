@@ -1,0 +1,6 @@
+<article [class.hidden]="loading" *ngIf="!loading">
+  <app-card [cardWidth]="70">
+    <app-task-form [editTask]="task" [conditions]="conditions"
+                   [selectedMicrochip]="selectedMicrochip" [outputPort]="outputPort"></app-task-form>
+  </app-card>
+</article>

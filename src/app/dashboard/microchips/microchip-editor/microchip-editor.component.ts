@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,6 +27,7 @@ export class MicrochipEditorComponent implements OnInit {
 
     constructor(private apiService: ApiService,
                 // private socketIOService: SocketIOService,
+                private ref: ChangeDetectorRef,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private location: Location) {
@@ -38,6 +39,7 @@ export class MicrochipEditorComponent implements OnInit {
         this.apiService.getMicrochipByID(this._id).subscribe(
             data => {
                 this.microchip = data;
+                this.ref.markForCheck();
             },
             err => console.log('Error:', err),
             () => { this.loading = false; }
@@ -47,21 +49,4 @@ export class MicrochipEditorComponent implements OnInit {
     back() {
         this.location.back();
     }
-
-    onSubmit(form: NgForm) {
-        this.loading = true;
-        const microchip = new Microchip(
-            form.value.name,
-            this.user._id,
-            form.value.ip,
-            form.value.description ? form.value.description : ''
-        );
-
-        this.apiService.insertMicrochip(microchip).subscribe(
-            data => this.router.navigateByUrl('/dashboard/microchips/' + data._id),
-            error => console.log('Error', error),
-            () => this.loading = false
-        );
-    }
-
 }

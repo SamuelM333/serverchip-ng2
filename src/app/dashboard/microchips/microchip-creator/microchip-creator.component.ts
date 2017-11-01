@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ApiService } from '../../../shared/api.service';
 import { User } from '../../../shared/user';
-import { Microchip } from '../../../shared/microchip';
 
 
 @Component({
@@ -28,21 +26,4 @@ export class MicrochipCreatorComponent implements OnInit {
     back() {
         this.location.back();
     }
-
-    onSubmit(form: NgForm) {
-        this.loading = true;
-        const microchip = new Microchip(
-            form.value.name,
-            this.user,
-            form.value.ip,
-            form.value.description ? form.value.description : ''
-        );
-
-        this.apiService.insertMicrochip(microchip).subscribe(
-            data => this.router.navigateByUrl('/dashboard/microchips/' + data._id),
-            error => console.log('Error', error),
-            () => this.loading = false
-        );
-    }
-
 }

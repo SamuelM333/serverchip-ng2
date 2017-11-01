@@ -65,8 +65,5 @@ export class MicrochipFormComponent implements OnChanges {
                 error => console.log('Error', error)
             );
         }
-
-
     }
-
 }

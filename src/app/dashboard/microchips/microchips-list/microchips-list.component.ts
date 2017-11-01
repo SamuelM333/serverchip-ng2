@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
 import { MatPaginator } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -29,7 +29,8 @@ export class MicrochipsListComponent implements OnInit {
     loading: boolean;
     microchip_to_delete: Microchip;
 
-    constructor(private apiService: ApiService) { }
+    constructor(private apiService: ApiService,
+                private ref: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.loading = true;
@@ -39,7 +40,7 @@ export class MicrochipsListComponent implements OnInit {
                 this.microchips = data._items;
                 for (let i = 0; i < this.microchips.length; i++) {
                     this.apiService.getTaskByMicrochipID(this.microchips[i]._id).subscribe(
-                        taskData => this.microchips[i].tasks = taskData._meta.total
+                        (taskData) => this.microchips[i].tasks = taskData._meta.total
                     );
                 }
 
@@ -54,6 +55,8 @@ export class MicrochipsListComponent implements OnInit {
                             this.dataSource.filter = this.filter.nativeElement.value;
                         }
                     );
+                this.ref.markForCheck();
+
             },
             e => {
                 error = true;
@@ -79,7 +82,9 @@ export class MicrochipsListComponent implements OnInit {
 class MicrochipsData {
     /** Stream that emits whenever the data has been modified. */
     dataChange: BehaviorSubject<Microchip[]> = new BehaviorSubject<Microchip[]>([]);
+
     get data(): Microchip[] { return this.dataChange.value; }
+
     constructor(private _microchips: Microchip[]) {
         for (const task of this._microchips) {
             const copiedData = this.data.slice();
@@ -91,7 +96,9 @@ class MicrochipsData {
 
 class MicrochipTableDataSource extends DataSource<any> {
     get filter(): string { return this._filterChange.value; }
+
     set filter(filter: string) { this._filterChange.next(filter); }
+
     private _filterChange = new BehaviorSubject('');
 
     constructor(private _microchipsData: MicrochipsData, private _paginator: MatPaginator) {

@@ -4,7 +4,8 @@
     <div>
       <!-- Card title -->
       <h1 class="card-title">
-        <a class="text-link" (click)="back()">
+        <a class="text-link" [routerLink]="['/dashboard', 'reports']">
+        <!--<a class="text-link" (click)="back()">-->
           <i class="fa fa-chevron-left" aria-hidden="true"></i> Report for {{ report?.details.task.name }} at {{report?.created}}
         </a>
       </h1>

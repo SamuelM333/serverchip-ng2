@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
@@ -10,24 +10,18 @@ import { ApiService } from '../../../shared/api.service';
 
 @Component({
     selector: 'app-microchip-view',
-    templateUrl: './microchip-view.component.html',
-    styles: [`
-        .warn {
-            color: red;
-        }
-    `]
+    templateUrl: './microchip-view.component.html'
 })
-export class MicrochipViewComponent implements OnInit, OnDestroy {
+export class MicrochipViewComponent implements OnInit {
 
     _id: string;
     microchip: Microchip;
-    microchipTemp: number;
-    warning: boolean;
     tasks: Task[] = [];
     loading: boolean;
 
     constructor(private dialog: MatDialog,
                 private apiService: ApiService,
+                private ref: ChangeDetectorRef,
                 // private socketIOService: SocketIOService,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
@@ -43,26 +37,11 @@ export class MicrochipViewComponent implements OnInit, OnDestroy {
                 this.apiService.getTaskByMicrochipID(this.microchip._id).subscribe(
                     microchipData => this.tasks = microchipData._items
                 );
-                // console.log(this.microchip);
-                // this.socketIOService.sendMessage('join_room', { user: 'samuel', microchip: this.microchip.ip });
-                /*this.socketIOService.getMessage('temperature_out')
-                    .subscribe(
-                        (tempData) => {
-                            console.log(tempData);
-                            if (tempData.ip === this.microchip.ip) {
-                                this.microchipTemp = tempData.temp;
-                            }
-                        }
-                    );*/
+                this.ref.markForCheck();
             },
             err => console.log('Error:', err),
             () => { this.loading = false; }
         );
-    }
-
-    ngOnDestroy() {
-        // this.socketIOService.removeAllListeners('temperature_out');
-        // this.socketIOService.sendMessage('leave_room', { microchip: this.microchip.ip });
     }
 
     back() {

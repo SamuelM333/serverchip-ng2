@@ -129,12 +129,14 @@ export class ApiService {
         );
     }
 
-    updateTask(_id: string, task: Task) {
+    updateTask(_id: string, task) {
         const headers = new Headers({
             'Content-Type': 'application/json',
             'If-Match': task._etag
         });
 
+        task.microchip = task.microchip._id;
+        delete task._etag;
         return this.http.put(apiUrl + 'task/' + _id, JSON.stringify(task), { headers: headers }).map(
             (response: Response) => response.json()
         );

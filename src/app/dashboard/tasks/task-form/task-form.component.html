@@ -1,0 +1,150 @@
+<mat-horizontal-stepper linear>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup" fxFlex>
+      <ng-template matStepLabel>Select a microchip</ng-template>
+      <mat-grid-list cols="6" rowHeight="2:1">
+        <mat-grid-tile colspan="2"></mat-grid-tile>
+        <mat-grid-tile colspan="2">
+          <div fxLayout="column" fxLayoutAlign="center stretch" fxFill>
+            <mat-form-field floatPlaceholder="auto">
+              <mat-select formControlName="selectedMicrochip" (change)="selectMicrochip()">
+                <mat-option *ngFor="let microchip of microchips" [value]="microchip">
+                  {{ microchip.name }}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Microchip</mat-placeholder>
+            </mat-form-field>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2"></mat-grid-tile>
+      </mat-grid-list>
+      <div fxLayout="row">
+        <span fxFlex></span>
+        <button mat-raised-button color="primary" [disabled]="!firstFormGroup.valid" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <ng-template matStepLabel>Task details</ng-template>
+    <mat-grid-list cols="2" rowHeight="4:3">
+      <mat-grid-tile>
+        <div class="form-container" fxFlex>
+          <form class="form-container" [formGroup]="secondFormGroup">
+            <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex>
+              <mat-form-field class="form-field full-form-field">
+                <input matInput required="true" formControlName="taskName" placeholder="Task name">
+              </mat-form-field>
+              <mat-form-field class="form-field full-form-field">
+                    <textarea matInput formControlName="taskDescription" placeholder="Description (optional)" rows="3"
+                              maxlength="120"></textarea>
+              </mat-form-field>
+              <mat-form-field floatPlaceholder="auto" class="full-form-field">
+                <mat-select id="output-port-select" formControlName="outputPortNumber"
+                            (change)="outputPortChange($event.value)">
+                  <mat-option *ngFor="let port of portsForTask" [value]="port">
+                    {{ port }}
+                  </mat-option>
+                </mat-select>
+                <mat-placeholder>Output port number *</mat-placeholder>
+              </mat-form-field>
+              <div fxLayout="row" class="sub-container">
+                <label>State: </label>
+                <mat-radio-group formControlName="inputPortState">
+                  <mat-radio-button color="primary" [value]="true">True</mat-radio-button>
+                  <mat-radio-button color="primary" [value]="false">False</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div fxLayout="column" fxLayoutGap="10px" fxFlex="nogrow">
+          <button mat-raised-button color="primary" (click)="openDialog()">Add condition</button>
+          <div>
+            <div *ngIf="conditions.length === 0">No conditions added yet</div>
+            <div *ngIf="conditions.length > 0">
+              <div *ngFor="let condition of conditions; let i = index">
+                <div class="condition">
+                  <div fxLayout="column" fxLayoutGap="3px">
+                    <div fxLayout="row">
+                      <span>Name: {{condition.name}}</span>
+                      <span fxFlex></span>
+                      <a (click)="removeCondition(i)">
+                        <mat-icon>delete</mat-icon>
+                      </a>
+                    </div>
+                    <span>Condition type: {{condition.conditionType === 'InputPort' ? 'Input Port' : 'Day-Hour'}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div fxLayout="row">
+      <button mat-raised-button matStepperPrevious color="primary">Back</button>
+      <span fxFlex></span>
+      <button mat-raised-button matStepperNext color="primary"
+              (click)="getDataFromForm()" [disabled]="!secondFormGroup.valid">
+        Next
+      </button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Summary</ng-template>
+    <div fxLayout="column" *ngIf="task">
+      <div fxLayout="row" fxLayoutGap="5px">
+        <span><b>Name: </b></span><span>{{task.name}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutGap="5px">
+        <span><b>Output port number: </b></span><span>{{task.output_port.number}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutGap="5px">
+        <span><b>Output port state: </b></span><span>{{task.output_port.state}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutGap="5px">
+        <span><b>Number of conditions: </b></span><span>{{task.conditions.length}}</span>
+      </div>
+      <span><b>Conditions: </b></span>
+      <div fxLayout="column" fxLayoutGap="10px" class="sub-container">
+        <div></div>
+        <div *ngFor="let condition of task.conditions">
+
+          <div *ngIf="condition.input_port">
+            <div fxLayout="row" fxLayoutGap="5px">
+              <span><b>Condition type: </b></span><span>Input port</span>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px">
+              <span><b>Input port number: </b></span><span>{{condition.input_port.number}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px">
+              <span><b>Input port state: </b></span><span>{{condition.input_port.state}}</span>
+            </div>
+          </div>
+          <div *ngIf="condition.day_hour">
+            <div fxLayout="row" fxLayoutGap="5px">
+              <span><b>Condition type: </b></span><span>Day-hour</span>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px">
+              <span><b>Day: </b></span><span>{{condition.day_hour.days}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px">
+              <span><b>Input port state: </b></span><span>{{task.output_port.state}}</span>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" (click)="onSubmit()">
+        Submit
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
