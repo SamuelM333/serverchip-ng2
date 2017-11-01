@@ -7,7 +7,8 @@ import { Report } from './report';
 import { Task } from './task';
 
 // export const apiUrl = 'https://serverchip-samuelm333.rhcloud.com/';
-export const apiUrl = 'http://192.168.1.123:5000/';
+// export const apiUrl = 'http://192.168.1.123:5000/';
+export const apiUrl = 'http://192.168.1.112:5000/';
 
 @Injectable()
 export class ApiService {
@@ -79,15 +80,11 @@ export class ApiService {
     }
 
     updateMicrochip(_id: string, microchip) {
-        console.log(microchip._etag);
         const headers = new Headers({
             'Content-Type': 'application/json',
             'If-Match': microchip._etag
         });
         delete microchip._etag;
-        microchip.owner = microchip.owner._id;
-
-        console.log(microchip);
 
         return this.http.put(apiUrl + 'microchip/' + _id, JSON.stringify(microchip), { headers: headers }).map(
             (response: Response) => response.json()

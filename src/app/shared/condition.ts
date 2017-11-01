@@ -11,14 +11,14 @@ export abstract class Condition {
 
 export class DayHourCondition extends Condition {
     day_hour: {
-        day: string,
+        days: string,
         hour: {
             start: string,
             end: string
         };
     };
 
-    constructor(name: string, conditionType: string, day_hour: { day: string; hour: { start: string, end: string } }) {
+    constructor(name: string, conditionType: string, day_hour: { days: string; hour: { start: string, end: string } }) {
         super(name, conditionType);
         this.day_hour = day_hour;
     }

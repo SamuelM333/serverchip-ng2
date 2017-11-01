@@ -35,8 +35,6 @@ export class MicrochipEditorComponent implements OnInit {
 
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('authUser'));
-        console.log(this.user);
-
         this.apiService.getMicrochipByID(this._id).subscribe(
             data => {
                 this.microchip = data;
@@ -54,10 +52,10 @@ export class MicrochipEditorComponent implements OnInit {
         this.loading = true;
         const microchip = new Microchip(
             form.value.name,
-            this.user,
-            form.value.ip
+            this.user._id,
+            form.value.ip,
+            form.value.description ? form.value.description : ''
         );
-        microchip.description = form.value.description ? form.value.description : '';
 
         this.apiService.insertMicrochip(microchip).subscribe(
             data => this.router.navigateByUrl('/dashboard/microchips/' + data._id),

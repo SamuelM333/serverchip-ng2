@@ -127,7 +127,7 @@ export class TaskCreatorComponent implements OnInit {
 
                 } else {
                     this.conditions.push(new DayHourCondition(result.name, 'DayHour', {
-                        day: result.day,
+                        days: result.day,
                         hour: {
                             start: `${'0'.concat(result.startHour).slice(-2)}:${'0'.concat(result.startMinute).slice(-2)}`,
                             end: `${'0'.concat(result.endHour).slice(-2)}:${'0'.concat(result.endMinute).slice(-2)}`
