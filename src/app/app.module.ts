@@ -7,32 +7,27 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
 import 'hammerjs';
 
-// import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-
 import { MaterialModule } from './material.module';
 import { APP_ROUTING } from './app.routing';
 import { AppComponent } from './app.component';
 
 import { ApiService } from './shared/api.service';
-// import { SocketIOService } from './shared/socketio.service';
-// import { BusyLoaderComponent } from './shared/busy-loader/busy-loader.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TasksListComponent } from './dashboard/tasks/tasks-list/tasks-list.component';
+import { TaskViewComponent, DeleteTaskDialogComponent } from './dashboard/tasks/task-view/task-view.component';
+import { TaskFormComponent, AddConditionDialogComponent } from './dashboard/tasks/task-form/task-form.component';
+import { TaskEditorComponent } from './dashboard/tasks/task-editor/task-editor.component';
+import { TaskCreatorComponent } from './dashboard/tasks/task-creator/task-creator.component';
 import { ReportsListComponent } from './dashboard/reports/reports-list/reports-list.component';
 import { MicrochipsListComponent } from './dashboard/microchips/microchips-list/microchips-list.component';
-import { TaskViewComponent, DeleteTaskDialogComponent } from './dashboard/tasks/task-view/task-view.component';
 import { MicrochipViewComponent, DeleteMicrochipDialogComponent } from './dashboard/microchips/microchip-view/microchip-view.component';
 import { ReportViewComponent } from './dashboard/reports/report-view/report-view.component';
-import { TaskCreatorComponent, AddConditionDialogComponent } from './dashboard/tasks/task-creator/task-creator.component';
 import { MicrochipCreatorComponent } from './dashboard/microchips/microchip-creator/microchip-creator.component';
 import { MicrochipEditorComponent } from './dashboard/microchips/microchip-editor/microchip-editor.component';
 import { MicrochipFormComponent } from './dashboard/microchips/microchip-form/microchip-form.component';
 import { CardComponent } from './shared/card/card.component';
-// import { AuthComponent } from './auth/auth.component';
-
-// const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 
 @NgModule({
     imports: [
@@ -43,12 +38,14 @@ import { CardComponent } from './shared/card/card.component';
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
-        // SocketIoModule.forRoot(config),
         APP_ROUTING
     ],
     declarations: [
         AppComponent,
         TaskCreatorComponent,
+        TaskEditorComponent,
+        TaskFormComponent,
+        TasksListComponent,
         AddConditionDialogComponent,
         DeleteTaskDialogComponent,
         DeleteMicrochipDialogComponent,
@@ -56,7 +53,6 @@ import { CardComponent } from './shared/card/card.component';
         LoginComponent,
         SignupComponent,
         DashboardComponent,
-        TasksListComponent,
         TaskViewComponent,
         MicrochipsListComponent,
         MicrochipViewComponent,
@@ -64,9 +60,7 @@ import { CardComponent } from './shared/card/card.component';
         MicrochipEditorComponent,
         ReportsListComponent,
         ReportViewComponent,
-        TaskCreatorComponent,
-        MicrochipCreatorComponent,
-        // AuthComponent
+        MicrochipCreatorComponent
     ],
     entryComponents: [
         AddConditionDialogComponent,
@@ -76,8 +70,7 @@ import { CardComponent } from './shared/card/card.component';
     providers: [
         { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
         ApiService,
-        MaterialModule,
-        // SocketIOService
+        MaterialModule
     ],
     bootstrap: [AppComponent],
     schemas: [NO_ERRORS_SCHEMA]
