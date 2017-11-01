@@ -24,7 +24,9 @@
         <p><b>Conditions: </b></p>
         <div class="sub-item" *ngFor="let condition of task?.conditions">
           <p><b>Name: </b>{{condition.name}}</p>
-          <p *ngIf="condition.day_hour"><b>Datetime: </b>{{condition.day_hour?.days}}, {{condition.day_hour?.hour}}</p>
+          <p *ngIf="condition.day_hour">
+            <b>Datetime: </b>{{condition.day_hour?.days}}, {{condition.day_hour?.hour.start}} - {{condition.day_hour?.hour.end}}
+          </p>
           <p *ngIf="condition.input_port"><b>Input port: </b>
             <span>{{condition.input_port?.number}}, {{condition.input_port?.state}}</span>
           </p>
